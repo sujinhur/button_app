@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block nav %}
+    
+    <div class="col-md-12">
+        <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+            <a class="nav-link active fw-bolder" aria-current="page" href="#">7일</a>
+            </li>
+            <li class="nav-item text-white">
+            <a class="nav-link" href="month">1개월</a>
+            </li>
+            <li class="nav-item text-white">
+            <a class="nav-link" href="year">12개월</a>
+            </li>   
+        </ul>
+    </div>
+{% endblock %}
+
+{% block main %}
+
+    <div class="col-md-12 text-center" style="margin-top: 10%;">
+        <a class="btn btn-sm" href="#" style="margin-bottom: 1%;"><img class="img_rotate" src="../../static/images/next1.png"></a>
+        <strong class="d-inline-block mb-2 align-middle text-dark fs-5">{{ day }}</strong>
+        <a class="btn btn-sm" href="#" style="margin-bottom: 1%;"><img src="../../static/images/next1.png"></a>
+    </div>
+  
+
+    <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%"> 
+        
+        {% for i in date %}
+            {{ i }}
+        {% endfor %}
+    </div>
+
+{% endblock %}
