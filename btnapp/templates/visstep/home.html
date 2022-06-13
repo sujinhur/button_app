@@ -19,16 +19,28 @@
 {% block main %}
 
     <div class="col-md-12 text-center" style="margin-top: 10%;">
+        {% if page.number == 1 %}
+        <a class="btn btn-sm" href="?page=2" style="margin-bottom: 1%;"><img class="img_rotate" src="../../static/images/next1.png"></a>
+        {% elif page.has_next %}
+        <a class="btn btn-sm" href="?page={{page.next_page_number}}" style="margin-bottom: 1%;"><img class="img_rotate" src="../../static/images/next1.png"></a>
+        {% else %}
         <a class="btn btn-sm" href="#" style="margin-bottom: 1%;"><img class="img_rotate" src="../../static/images/next1.png"></a>
-        <strong class="d-inline-block mb-2 align-middle text-dark fs-5">{{ day }}</strong>
+        {% endif %}
+        <strong class="d-inline-block mb-2 align-middle text-dark fs-5">{{ date }}</strong>
+        {% if page.number == 2 %}
+        <a class="btn btn-sm" href="/" style="margin-bottom: 1%;"><img src="../../static/images/next1.png"></a>
+        {% elif page.has_previous %}
+        <a class="btn btn-sm" href="?page={{page.previous_page_number}}" style="margin-bottom: 1%;"><img src="../../static/images/next1.png"></a>
+        {% else %}
         <a class="btn btn-sm" href="#" style="margin-bottom: 1%;"><img src="../../static/images/next1.png"></a>
+        {% endif %}
     </div>
   
 
     <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%"> 
-        
-        {% for i in date %}
-            {{ i }}
+        {% for i in page_list %}
+            {{ i.saved_time }}
+            {{ i.stepCount }}
         {% endfor %}
     </div>
 
