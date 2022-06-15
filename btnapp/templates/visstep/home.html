@@ -4,13 +4,13 @@
     <div class="col-md-12">
         <ul class="nav nav-tabs nav-fill">
             <li class="nav-item">
-            <a class="nav-link active fw-bolder" aria-current="page" href="#">7일</a>
+            <a class="nav-link active fw-bolder" aria-current="page" href="/">7일</a>
             </li>
             <li class="nav-item text-white">
-            <a class="nav-link" href="month">1개월</a>
+            <a class="nav-link" href="/month">1개월</a>
             </li>
             <li class="nav-item text-white">
-            <a class="nav-link" href="year">12개월</a>
+            <a class="nav-link" href="/year">12개월</a>
             </li>   
         </ul>
     </div>
@@ -26,7 +26,7 @@
         {% else %}
         <a class="btn btn-sm" href="#" style="margin-bottom: 1%;"><img class="img_rotate" src="../../static/images/next1.png"></a>
         {% endif %}
-        <strong class="d-inline-block mb-2 align-middle text-dark fs-5">{{ date }}</strong>
+        <strong class="d-inline-block mb-2 align-middle text-dark fs-5">{{ date_range }}</strong>
         {% if page.number == 2 %}
         <a class="btn btn-sm" href="/" style="margin-bottom: 1%;"><img src="../../static/images/next1.png"></a>
         {% elif page.has_previous %}

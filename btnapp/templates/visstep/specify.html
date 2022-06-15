@@ -1,0 +1,18 @@
+{% extends "drop_base.html" %}
+{% block header %}
+    <h2 class="text-white lh-1" style="margin-top: 8px; font-family: Arial;">기간 설정</h2>
+{% endblock %}
+
+{% block main %}
+    <div class="col-md-12 text-center" style="margin-top: 10%;">
+        <strong class="d-inline-block mb-2 align-middle text-dark fs-5">{{ date_range }}</strong>
+    </div>
+
+    <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%"> 
+        {% for i in date %}
+            {{ i.saved_time }}
+            {{ i.stepCount }}
+        {% endfor %}
+    </div>
+
+{% endblock %}
