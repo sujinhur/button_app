@@ -5,7 +5,33 @@
 
 {% block main %}
     <div class="col-md-12 text-center" style="margin-top: 10%;">
-        <strong class="d-inline-block mb-2 align-middle text-dark fs-5">{{ date_range }}</strong>
+    
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success opacity-75 rounded-pill" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+            {{ date_range }}
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Select Date Range</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="datepicker" class="input-append date" style="display: inline-block; text-align: center;">
+                        <!-- 날짜 범위 선택 -->
+                    </div> 
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success">Done</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
     </div>
 
     <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%"> 
@@ -14,5 +40,39 @@
             {{ i.stepCount }}
         {% endfor %}
     </div>
+
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        $.datepicker.setDefaults({
+            dateFormat: 'yymmdd',
+            prevText: '이전 달',
+            nextText: '다음 달',
+            monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+            dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+            dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+            showMonthAfterYear: true,
+            yearSuffix: '년',
+
+        });
+
+
+        $(function() {
+            $('#datepicker').datepicker({
+                dateFormat: 'yy-mm-dd',
+                minDate: new Date('2021-01-01'),
+                maxDate: 0
+            });
+        });
+
+       
+  
+        
+        
+    </script>
 
 {% endblock %}
