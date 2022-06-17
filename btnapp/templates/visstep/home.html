@@ -37,11 +37,22 @@
     </div>
   
 
-    <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%"> 
-        {% for i in page_list %}
-            {{ i.saved_time }}
-            {{ i.stepCount }}
-        {% endfor %}
+    <div class="col-md-12 text-center" style="margin-top: 3%; margin-bottom: 15%" id="vis"> 
+ 
     </div>
+
+    
+
+{% endblock %}
+
+{% block script %}
+    <script>
+
+        var stepcount = "{{ stepcount }}";
+
+        stepcount = JSON.parse(stepcount)
+
+        $.getScript("../../static/js/weeks.js");
+    </script>
 
 {% endblock %}

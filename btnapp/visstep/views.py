@@ -1,6 +1,6 @@
-from multiprocessing.reduction import steal_handle
+
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.core.paginator import Paginator, EmptyPage
 
 import datetime
@@ -46,10 +46,14 @@ def home(request):
 
         date_range = str(month[0]) + "월 " + str(day[0]) + "일 ~" + str(month[-1]) + "월 " + str(day[-1]) + "일"
 
+    stepcount = []
+    for i in reversed(data.object_list):
+        stepcount.append(i.stepCount)
+
     context = {
         "page" : data,
-        "page_list" : reversed(data.object_list),
         "date_range" : date_range,
+        "stepcount" : stepcount,
     }
     return render(request, 'visstep/home.html', context)
 
@@ -130,24 +134,31 @@ def specify(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
     
-    print(str(start_date))
+    print(start_date)
 
     if not start_date:
         date = StepCount_Data.objects.filter(saved_time__range = [startday, current])
         date_range = str(startday.month) + "월 " + str(startday.day) + "일 ~ " + str(current.month) + "월 " + str(current.day) + "일"
+        context = {
+        "date_range" :date_range,
+        "date" : date, 
+
+        }
+        return render(request, 'visstep/specify.html', context)
     else:
         date = StepCount_Data.objects.filter(saved_time__range = [start_date, end_date])
-        date_range = str(start_date.month) + "월 " + str(start_date.day) + "일 ~ " + str(end_date.month) + "월 " + str(end_date.day) + "일"
+        print(date)
+        first_date = StepCount_Data.objects.get(saved_time = str(date[0])).saved_time
+        final_date = StepCount_Data.objects.get(saved_time = str(date[len(date)-1])).saved_time
+        date_range = str(first_date.month) + "월 " + str(first_date.day) + "일 ~ " + str(final_date.month) + "월 " + str(final_date.day) + "일"
+        context = {
+        "date_range" :date_range,
+        "date" : list(date.values()), 
 
-
+        }   
+        return JsonResponse(context)
     
 
-    context = {
-        "date_range" :date_range,
-        "date" : date,
-
-    }
-    return render(request, 'visstep/specify.html', context)
 
 def compare(request):
     current = datetime.date.today()
