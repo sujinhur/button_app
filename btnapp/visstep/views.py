@@ -127,15 +127,25 @@ def specify(request):
     weekday = datetime.datetime.today().weekday()
     startday = current - timedelta(days=weekday)
 
-    date = StepCount_Data.objects.filter(saved_time__range = [startday, current])
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    
+    print(str(start_date))
+
+    if not start_date:
+        date = StepCount_Data.objects.filter(saved_time__range = [startday, current])
+        date_range = str(startday.month) + "월 " + str(startday.day) + "일 ~ " + str(current.month) + "월 " + str(current.day) + "일"
+    else:
+        date = StepCount_Data.objects.filter(saved_time__range = [start_date, end_date])
+        date_range = str(start_date.month) + "월 " + str(start_date.day) + "일 ~ " + str(end_date.month) + "월 " + str(end_date.day) + "일"
 
 
-    date_range = str(startday.month) + "월 " + str(startday.day) + "일 ~ " + str(current.month) + "월 " + str(current.day) + "일"
-    print(date[0])
+    
 
     context = {
         "date_range" :date_range,
         "date" : date,
+
     }
     return render(request, 'visstep/specify.html', context)
 
