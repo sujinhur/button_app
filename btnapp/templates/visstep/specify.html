@@ -12,7 +12,7 @@
 
     </div>
 
-    <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%" id="vis_data"> 
+    <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%" id="vis"> 
         {% for i in date %}
             {{ i.saved_time }}
             {{ i.stepCount }}
@@ -58,14 +58,20 @@
     				console.log("[response] : " + response);
     				console.log(""); 
                     $('#daterangepicker').html(response.date_range)
-                    var time = [];
-                    var count = []
+                    var days = [];
+                    var stepcount = []
                     for(var i = 0; i<(response.date).length; i++) {
-                            time.push(response.date[i].saved_time);
-                            count.push(response.date[i].stepCount);
+                            days.push(response.date[i].saved_time);
+                            stepcount.push(response.date[i].stepCount);
                         }
                     
-                    $('#vis_data').html(time)
+                    console.log(days);
+                    
+
+                    $.getScript("../../static/js/specify.js");
+                    
+                    $('#vis').html(days)
+                    
                     				
     			},
     			    			
@@ -82,6 +88,7 @@
     				console.log("[complete] : " + textStatus);
     				console.log("");    				
     			}
+
 
             })
         }
