@@ -14,7 +14,7 @@ for(var i = 0; i < day.length; i++) {
 
 console.log(data);
 
-const width = 270;
+const width = 300;
 const height = 270;
 const margin = {top: 40, left: 40, bottom: 40, right: 5};
 

@@ -1,12 +1,15 @@
-console.log(days);
 console.log(stepcount);
+
+var day = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월']
 
 const data = []
 
-for(var i = 0; i < days.length; i++) {
-    
-    data.push({'name': days[i], 'value': stepcount[i], color: '#add7a8'});
-    
+for(var i = 0; i < day.length; i++) {
+    if(i >= stepcount.length) {
+        data.push({'name': day[i], 'value': 0, color: '#add7a8'});
+    } else {
+        data.push({'name': day[i], 'value': stepcount[i], color: '#add7a8'});
+    }
 }
 
 console.log(data);
@@ -27,8 +30,7 @@ const y = d3.scaleLinear()
 const xAxis = g => g
   .attr('transform', `translate(0, ${height - margin.bottom})`)
   .call(d3.axisBottom(x)
-    .tickSizeOuter(0)
-    .tickFormat(g => g%2==1 ? g : null))
+    .tickSizeOuter(0))
   .call(g => g.select('.domain').remove())
   .call(g => g.selectAll('line').remove());
 
@@ -46,7 +48,7 @@ const yAxis = g => g
 const svg = d3.select('#vis').append('svg').style('width', width).style('height', height);
 
 
-svg.append('g').call(xAxis).style("font-size", "10px");
+svg.append('g').call(xAxis).style("font-size", "9px");
 svg.append('g').call(yAxis).style("font-size", "9px");
 
 svg.append('g')
@@ -54,7 +56,7 @@ svg.append('g')
     .attr('x', d => x(d.name))
     .attr('y', d => y(d.value))
     .attr('height', d => y(0) - y(d.value))
-    .attr("rx", 5)
+    .attr("rx", 10)
     .attr('width', x.bandwidth())
     .attr('fill', d => d.color)
     .attr('data-x', d => d.name)
@@ -62,3 +64,5 @@ svg.append('g')
     .attr('data-color', d=> d.color);
 
 svg.node();
+
+    

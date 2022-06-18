@@ -25,10 +25,20 @@
     </div>
   
 
-    <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%"> 
-        {% for i in date %}
-            {{ i.saved_time }}
-        {% endfor %}
+    <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 15%" id="vis"> 
+        
     </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        var days = "{{ days }}";
+        var stepcount = "{{ stepcount }}";
+        days = JSON.parse(days)
+        stepcount = JSON.parse(stepcount)
+
+        $.getScript("../../static/js/months.js");
+    </script>
 
 {% endblock %}

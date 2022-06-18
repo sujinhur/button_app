@@ -80,13 +80,20 @@ def month(request, num = 1):
                 next_page_index = num
         else:
             date = StepCount_Data.objects.filter(saved_time__year = str(current.year), saved_time__month = str(current.month - num + 1))
-        
+
+    days =[]
+    stepcount = []
+    for i in date:
+        days.append(i.saved_time.day)
+        stepcount.append(i.stepCount)
+
     # 날짜 범위
     first_date = StepCount_Data.objects.get(saved_time = str(date[0])).saved_time
     date_range = str(first_date.year) + "년 " + str(first_date.month) + "월" 
 
     context = {
-        "date" : date,
+        "days" : days,
+        "stepcount" : stepcount,
         "next_page_index" : next_page_index,
         "prev_page_index" : prev_page_index,
         "date_range" : date_range,
@@ -113,13 +120,31 @@ def year(request, num = 1):
         if StepCount_Data.objects.get(saved_time = str(date[0])).id == 1:
             next_page_index = num
 
+    month = []
+    stepcount = []
+    num = 0
+    count = 0
+    for i in range(1,13):
+        for j in date:
+            if i == j.saved_time.month:
+                num = num + j.stepCount
+                count = count + 1
+            else:
+                if num == 0:
+                    break
+                stepcount.append(num//count)
+                num = 0
+                count = 0
+                i = i+1
+
+
     # 날짜 범위
     first_date = StepCount_Data.objects.get(saved_time = str(date[0])).saved_time
     date_range = str(first_date.year) + "년"
 
 
     context = {
-        "date" : date,
+        "stepcount" : stepcount,
         "next_page_index" : next_page_index,
         "prev_page_index" : prev_page_index,
         "date_range" : date_range,
