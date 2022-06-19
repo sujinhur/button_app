@@ -164,9 +164,14 @@ def specify(request):
     if not start_date:
         date = StepCount_Data.objects.filter(saved_time__range = [startday, current])
         date_range = str(startday.month) + "월 " + str(startday.day) + "일 ~ " + str(current.month) + "월 " + str(current.day) + "일"
+        
+        stepcount = []
+        for i in date:
+            stepcount.append(i.stepCount)
+
         context = {
         "date_range" :date_range,
-        "date" : date, 
+        "stepcount" : stepcount, 
 
         }
         return render(request, 'visstep/specify.html', context)
@@ -190,16 +195,37 @@ def compare(request):
     weekday = datetime.datetime.today().weekday()
     startday = current - timedelta(days=weekday)
 
-    date_1 = StepCount_Data.objects.filter(saved_time__range = [startday, current])
-    date_2 = StepCount_Data.objects.filter(saved_time__range = [startday - timedelta(days= 7), startday - timedelta(days= 1)])
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+    
+    print(start_date)
+
+    if not start_date:
+
+        date_1 = StepCount_Data.objects.filter(saved_time__range = [startday, current])
+        date_2 = StepCount_Data.objects.filter(saved_time__range = [startday - timedelta(days= 7), startday - timedelta(days= 1)])
 
 
-    date_range = str(startday.month) + "월 " + str(startday.day) + "일 ~ " + str(current.month) + "월 " + str(current.day) + "일"
+        date_range_1 = str(startday.month) + "월 " + str(startday.day) + "일 ~ " + str(current.month) + "월 " + str(current.day) + "일"
+        date_range_2 = str(date_2[1].saved_time.month) + "월 " + str(date_2[1].saved_time.day) + "일 ~ " + str(date_2[6].saved_time.month) + "월 " + str(date_2[6].saved_time.day) + "일"
 
-
-    context = {
+        context = {
+            "date_range_1" :date_range_1,
+            "date_range_2" :date_range_2,
+            "date_1" : date_1,
+            "date_2" : date_2,
+        }
+        return render(request, 'visstep/compare.html', context)
+    
+    else:
+        date = StepCount_Data.objects.filter(saved_time__range = [start_date, end_date])
+        print(date)
+        first_date = StepCount_Data.objects.get(saved_time = str(date[0])).saved_time
+        final_date = StepCount_Data.objects.get(saved_time = str(date[len(date)-1])).saved_time
+        date_range = str(first_date.month) + "월 " + str(first_date.day) + "일 ~ " + str(final_date.month) + "월 " + str(final_date.day) + "일"
+        context = {
         "date_range" :date_range,
-        "date_1" : date_1,
-        "date_2" : date_2,
-    }
-    return render(request, 'visstep/compare.html', context)
+        "date" : list(date.values()), 
+
+        }   
+        return JsonResponse(context)

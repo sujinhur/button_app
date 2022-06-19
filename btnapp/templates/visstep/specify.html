@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block main %}
+
     <div class="col-md-12 text-center" style="margin-top: 10%;">
         
         <button type="button" class="btn btn-success opacity-75 rounded-pill" id="daterangepicker">
@@ -13,10 +14,6 @@
     </div>
 
     <div class="col-md-12 text-center" style="margin-top: 5%; margin-bottom: 5%" id="vis"> 
-        {% for i in date %}
-            {{ i.saved_time }}
-            {{ i.stepCount }}
-        {% endfor %}
         
     </div>
 
@@ -25,6 +22,12 @@
 {% block script %}
 
     <script>
+
+        var stepcount = "{{ stepcount }}";
+
+        stepcount = JSON.parse(stepcount)
+
+        $.getScript("../../static/js/weeks.js");
 
         $('#daterangepicker').daterangepicker({
             
@@ -39,7 +42,7 @@
             },
         
             
-            minDate: "2021-01-01",
+            minDate: "2020-12-31",
             maxDate: new Date(),
             opens: 'center',
             bsConfig: "{displayOneMonthRange: true}",
@@ -58,31 +61,29 @@
     				console.log("[response] : " + response);
     				console.log(""); 
                     $('#daterangepicker').html(response.date_range)
+                    
                     var days = [];
-                    var stepcount = []
+                    var new_stepcount = []
                     for(var i = 0; i<(response.date).length; i++) {
                             days.push(response.date[i].saved_time);
-                            stepcount.push(response.date[i].stepCount);
+                            new_stepcount.push(response.date[i].stepCount);
                         }
-                    
-                    console.log(days);
-                    
+                    console.log(typeof(days[0]));
 
-                    $.getScript("../../static/js/specify.js");
-                    
-                    $('#vis').html(days)
-                    
-                    				
-    			},
-    			    			
+                    $('#vis').empty();
+                    if(days.length <= 31) {
+                        months(days, new_stepcount)
+                    } else {
+                        years(days, new_stepcount)
+                    }  
+    				
+    			}, 			
     			/* 에러 확인 부분 */
     			error: function(xhr) {
                     alert("실패") 
     				console.log("[error] : " + JSON.stringify(xhr));
-    				console.log("");  
-                     				
-    			},
-    			    			
+    				console.log("");     				
+    			},  			
     			/* 완료 확인 부분 */
     			complete:function(data,textStatus) {
     				console.log("[complete] : " + textStatus);
@@ -95,6 +96,80 @@
 
         );
         
+        
+
+        function months(days, new_stepcount) {
+
+            console.log(days);
+            console.log(new_stepcount);
+
+            var data = []
+
+            for(var i = 0; i < days.length; i++) {
+                
+                data.push({'name': days[i].slice(8,10), 'value': new_stepcount[i], color: '#add7a8'});
+                
+            }
+
+            console.log(data);
+
+            var width = 300;
+            var height = 270;
+            var margin = {top: 40, left: 40, bottom: 40, right: 5};
+
+            var x = d3.scaleBand()
+            .domain(data.map(d => d.name))
+            .range([margin.left, width - margin.right])
+            .padding(0.4);
+
+            var y = d3.scaleLinear()
+            .domain([0, 13000]).nice()
+            .range([height - margin.bottom, margin.top]);
+
+            var xAxis = g => g
+            .attr('transform', `translate(0, ${height - margin.bottom})`)
+            .call(d3.axisBottom(x)
+                .tickSizeOuter(0)
+                .tickFormat(g => g%2==1 ? g : null))
+            .call(g => g.select('.domain').remove())
+            .call(g => g.selectAll('line').remove());
+
+            var yAxis = g => g
+            .attr('transform', `translate(${margin.left}, 0)`)
+            .call(d3.axisLeft(y)
+                .ticks(6))
+            .call(g => g.select('.domain').remove())
+            .call(g => g.selectAll('line')
+                .attr('x2', width)
+                .style('stroke', '#f5f5f5')
+                .style('stroke-width', 2))
+            
+            
+                var svg = d3.select('#vis').append('svg').style('width', width).style('height', height);
+
+
+            svg.append('g').call(xAxis).style("font-size", "10px");
+            svg.append('g').call(yAxis).style("font-size", "9px");
+
+            svg.append('g')
+                .selectAll('rect').data(data).enter().append('rect')
+                .attr('x', d => x(d.name))
+                .attr('y', d => y(d.value))
+                .attr('height', d => y(0) - y(d.value))
+                .attr("rx", 5)
+                .attr('width', x.bandwidth())
+                .attr('fill', d => d.color)
+                .attr('data-x', d => d.name)
+                .attr('data-y', d => d.value)
+                .attr('data-color', d=> d.color);
+
+            svg.node();
+
+            }
+
+            function years(days, new_stepcount) {
+
+            } 
 
         
     </script>

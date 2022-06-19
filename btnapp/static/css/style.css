@@ -146,11 +146,43 @@ margin-bottom: 0;
     opacity: 0.75;
 }
 
+.daterangepicker .drp-calendar.left {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin-top: 7px;
+}
+
+.daterangepicker .drp-calendar.left tbody {
+    display: none !important;
+}
+
+.daterangepicker .drp-calendar.left thead > tr:nth-child(2) {
+    display: none !important;
+}
+
+.daterangepicker .drp-calendar.left th.month {
+    display: none !important;
+}
+
+.daterangepicker .drp-calendar.left .calendar-table {
+    background: transparent !important;
+}
+
+.daterangepicker .daterangepicker.ltr .ranges, .daterangepicker.ltr .drp-calendar {
+    float: none !important;
+}
+
+.daterangepicker .drp-calendar.left .daterangepicker_input {
+    position: absolute !important;
+}
+
+.prev {
+    margin-top: 10px;
+}
+
 #vis {
     position: relative;
-  }
-
-
-  
+  }  
 
 
