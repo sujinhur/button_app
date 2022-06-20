@@ -158,8 +158,6 @@ def specify(request):
 
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-    
-    print(start_date)
 
     if not start_date:
         date = StepCount_Data.objects.filter(saved_time__range = [startday, current])
@@ -177,10 +175,11 @@ def specify(request):
         return render(request, 'visstep/specify.html', context)
     else:
         date = StepCount_Data.objects.filter(saved_time__range = [start_date, end_date])
-        print(date)
+
         first_date = StepCount_Data.objects.get(saved_time = str(date[0])).saved_time
         final_date = StepCount_Data.objects.get(saved_time = str(date[len(date)-1])).saved_time
         date_range = str(first_date.month) + "월 " + str(first_date.day) + "일 ~ " + str(final_date.month) + "월 " + str(final_date.day) + "일"
+        
         context = {
         "date_range" :date_range,
         "date" : list(date.values()), 

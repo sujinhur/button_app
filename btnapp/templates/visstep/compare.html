@@ -34,6 +34,13 @@
 
     <script>
 
+        // var stepcount = "{{ stepcount }}";
+
+        // stepcount = JSON.parse(stepcount)
+
+        // $.getScript("../../static/js/compare.js");
+
+
         $('#daterangepicker').daterangepicker({
             
             "locale": {
@@ -66,6 +73,7 @@
     				console.log("[response] : " + response);
     				console.log(""); 
                     $('#daterangepicker').html(response.date_range)
+                    const start = response.date[0].saved_time
                     var days = [];
                     var new_stepcount = []
                     for(var i = 0; i<(response.date).length; i++) {
@@ -74,7 +82,70 @@
                         }
                     console.log(days);
                     
-                    // $.getScript("../../static/js/specify.js");
+                    
+                    
+                    $('#vis').html(days)
+    				
+    			}, 			
+    			/* 에러 확인 부분 */
+    			error: function(xhr) {
+                    alert("실패") 
+    				console.log("[error] : " + JSON.stringify(xhr));
+    				console.log("");     				
+    			},  			
+    			/* 완료 확인 부분 */
+    			complete:function(data,textStatus) {
+    				console.log("[complete] : " + textStatus);
+    				console.log("");    				
+    			}
+
+
+                
+
+            })
+        },
+        $("daterangepicker2").daterangepicker({
+            
+            "locale": {
+                "format": "YYYY-MM-DD",
+                "separator": " ~ ",
+                "applyLabel": "Done",
+                "cancelLabel": "Close",
+                "daysOfWeek": ["일", "월", "화", "수", "목", "금", "토"],
+                "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],   
+        
+            },
+        
+            
+            minDate: "2020-12-31",
+            maxDate: start,
+            opens: 'center',
+            bsConfig: "{displayOneMonthRange: true}",
+            "startDate": new Date(),
+            "endDate": new Date(),
+
+        }, function(start, end, label) {
+            console.log(start.format("YYYY-MM-DD") + ' to ' + end.format('YYYY-MM-DD'));
+            
+            $.ajax({
+                url:"",
+                method: "GET",
+                dataType: "json",
+                data: {start_date: start.format('YYYY-MM-DD'), end_date: end.format('YYYY-MM-DD')},
+                success: function(response) {
+    				console.log("[response] : " + response);
+    				console.log(""); 
+                    $('#daterangepicker2').html(response.date_range)
+                    
+                    var days = [];
+                    var new_stepcount = []
+                    for(var i = 0; i<(response.date).length; i++) {
+                            days.push(response.date[i].saved_time);
+                            new_stepcount.push(response.date[i].stepCount);
+                        }
+                    console.log(days);
+                    
+                    
                     
                     $('#vis').html(days)
     				
@@ -94,14 +165,15 @@
 
             })
         }
-
+        
+        )
+        
+        
+        
+        
+        
         );
         
-        var stepcount = "{{ stepcount }}";
-
-        stepcount = JSON.parse(stepcount)
-
-        $.getScript("../../static/js/weeks.js");
         
     </script>
 
