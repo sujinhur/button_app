@@ -201,18 +201,25 @@ def compare(request):
 
     if not start_date:
 
-        date_1 = StepCount_Data.objects.filter(saved_time__range = [startday, current])
-        date_2 = StepCount_Data.objects.filter(saved_time__range = [startday - timedelta(days= 7), startday - timedelta(days= 1)])
+        data_1 = StepCount_Data.objects.filter(saved_time__range = [startday, current])
+        data_2 = StepCount_Data.objects.filter(saved_time__range = [startday - timedelta(days= 7), startday - timedelta(days= 1)])
 
+        stepcount_1 = []
+        stepcount_2 = []
+        for i in data_1:
+            stepcount_1.append(i.stepCount)
+        
+        for i in data_2:
+            stepcount_2.append(i.stepCount)
 
         date_range_1 = str(startday.month) + "월 " + str(startday.day) + "일 ~ " + str(current.month) + "월 " + str(current.day) + "일"
-        date_range_2 = str(date_2[1].saved_time.month) + "월 " + str(date_2[1].saved_time.day) + "일 ~ " + str(date_2[6].saved_time.month) + "월 " + str(date_2[6].saved_time.day) + "일"
+        date_range_2 = str(data_2[0].saved_time.month) + "월 " + str(data_2[0].saved_time.day) + "일 ~ " + str(data_2[6].saved_time.month) + "월 " + str(data_2[6].saved_time.day) + "일"
 
         context = {
             "date_range_1" :date_range_1,
             "date_range_2" :date_range_2,
-            "date_1" : date_1,
-            "date_2" : date_2,
+            "stepcount_1" : stepcount_1,
+            "stepcount_2" : stepcount_2,
         }
         return render(request, 'visstep/compare.html', context)
     
