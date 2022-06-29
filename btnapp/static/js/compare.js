@@ -32,15 +32,15 @@ data_min.push({'value' : d3.min(dataset1, d => d.value)});
 
 // 기본적인 마진값
 var width = 300;
-var height = 270;
-var margin = {top: 40, left: 40, bottom: 40, right: 5};
+var height = 300;
+var margin = {top: 40, left: 40, bottom: 70, right: 5};
 
 // canvas 사이즈
 var svg = d3
   .select("#vis")
   .append("svg")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", height + margin.top + margin.bottom)
+  .attr("width", width)
+  .attr("height", height)
 
 // graph 사이즈
 var graph = svg
@@ -54,43 +54,44 @@ var graph = svg
 var x = d3
   .scaleBand()
   .domain(dataset1.map(d => d.name))
-  .range([ 0, width ])
+  .range([ 0, width - margin.left ])
   .padding(0.5);
 
 var y = d3
   .scaleLinear()
   .domain([d3.min(data_min, d => (d.value/100)*90), d3.max(data_max, d => (d.value/100)*105)]).nice()
-  .range([ height, 0 ]);
+  .range([ height - margin.bottom, 0]);
 
 // axis groups
 const xAxisGroup = graph
   .append("g")
   .attr("class", "x-axis")
-  .style("font-size", "14px")
-  .attr("transform", "translate(0," + height + ")");
+  .style("font-size", "11px")
+  .attr("transform", "translate(0," + (height - margin.bottom) + ")");
+  
 
 const yAxisGroup = graph
   .append("g")
-  .style("font-size", "12px")
+  .style("font-size", "9px")
   .attr("class", "y-axis");
 
 // create axes
 const xAxis = d3
   .axisBottom(x)
-  
 
+  
 const yAxis = d3
   .axisLeft(y)
-  .ticks(5)
+  .ticks(6)
 
 // call axes
-xAxisGroup.call(xAxis);
-yAxisGroup.call(yAxis);
+xAxisGroup.call(xAxis).selectAll('line').remove();
+yAxisGroup.call(yAxis).selectAll('line').remove();
 
 // gridlines in y axis function
 function make_y_gridlines() {		
   return d3.axisLeft(y)
-      .ticks()
+      .ticks(6)
 }
 
 // add the Y gridlines
@@ -110,11 +111,8 @@ graph.append("g")
 var line = d3
   .line()
   .x(function(d) {
-    if(dataset.length < 8) {
-      return x(d.name) + 30;
-    }
-    else{
-      return x(d.name) ;}
+    
+      return x(d.name) + 10;
   })
   .y(function(d) {
     return y(d.value);
@@ -133,11 +131,9 @@ path
 var line1 = d3
   .line()
   .x(function(d) { 
-  if(dataset.length < 8) {
-    return x(d.name) + 30;
-  }
-  else{
-    return x(d.name) ;}
+  
+    return x(d.name) + 10;
+
   })
   .y(function(d) {
     return y(d.value);
