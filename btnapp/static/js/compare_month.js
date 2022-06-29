@@ -24,6 +24,7 @@ var width = 300;
 var height = 270;
 var margin = {top: 40, left: 40, bottom: 40, right: 5};
 
+// append the svg
 var svg = d3
   .select("#vis")
   .append("svg")
@@ -32,3 +33,5 @@ var svg = d3
   .append("g")
   .attr("transform", `translate(${margin.left},${margin.top})`);
 
+// group the data
+const sumstat = d3.group(data, d => d.name);
