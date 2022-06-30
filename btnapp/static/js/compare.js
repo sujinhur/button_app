@@ -63,24 +63,24 @@ var y = d3
   .range([ height - margin.bottom, 0]);
 
 // axis groups
-const xAxisGroup = graph
+var xAxisGroup = graph
   .append("g")
   .attr("class", "x-axis")
   .style("font-size", "11px")
   .attr("transform", "translate(0," + (height - margin.bottom) + ")");
   
 
-const yAxisGroup = graph
+var yAxisGroup = graph
   .append("g")
   .style("font-size", "9px")
   .attr("class", "y-axis");
 
 // create axes
-const xAxis = d3
+var xAxis = d3
   .axisBottom(x)
 
   
-const yAxis = d3
+var yAxis = d3
   .axisLeft(y)
   .ticks(6)
 

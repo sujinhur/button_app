@@ -4,7 +4,10 @@
 {% endblock %}
 
 {% block main %}
-    <div class="col-md-12 text-center" style="margin-top: 10%;">
+    <div style="margin-top: 10%; margin-left: 8%; margin-right: 8%;">
+        <p class = "text-center" style="font-size: 12px; color: #6c757d;">** 비교기간은 주별(월~일)/월별(1일~말일)로 설정해 주세요.</p>
+    </div>
+    <div class="col-md-12 text-center" style="margin-top: 5%;">
         <button type="button" class="btn btn-success opacity-75 rounded-pill" id="daterangepicker">
             {{ date_range_1 }}
         </button>
@@ -75,15 +78,15 @@
     				console.log(""); 
                     $('#daterangepicker').html(response.date_range)
                     var start = response.date[0].saved_time
-                    var days = [];
-                    var new_stepcount = []
+                    var days_1 = [];
+                    var new_stepcount_1 = []
                     for(var i = 0; i<(response.date).length; i++) {
-                            days.push(response.date[i].saved_time);
-                            new_stepcount.push(response.date[i].stepCount);
+                            days_1.push(response.date[i].saved_time);
+                            new_stepcount_1.push(response.date[i].stepCount);
                         }
-                    console.log(days);
+                   
                     
-                    $('#vis').html(days)
+                    
 
                     $('#daterangepicker2').daterangepicker({
             
@@ -117,15 +120,20 @@
                                 console.log(""); 
                                 $('#daterangepicker2').html(response.date_range)
                                 
-                                var days = [];
-                                var new_stepcount = []
+                                var days_2 = [];
+                                var new_stepcount_2 = []
                                 for(var i = 0; i<(response.date).length; i++) {
-                                        days.push(response.date[i].saved_time);
-                                        new_stepcount.push(response.date[i].stepCount);
+                                        days_2.push(response.date[i].saved_time);
+                                        new_stepcount_2.push(response.date[i].stepCount);
                                     }
-                                console.log(days);
                                 
-                                $('#vis').html(days)
+                                
+                                $('#vis').empty();
+                                if(days_2.length <= 7) {
+                                    compare(new_stepcount_1, new_stepcount_2)
+                                } else {
+                                    compare_month(days_2, new_stepcount_1, new_stepcount_2)
+                                } 
                                 
                             }			
 
@@ -141,6 +149,309 @@
         });
         
             });
+
+        function compare(stepcount_1, stepcount_2) {
+            // 쿼리 결과 값 저장 변수
+            dataset = [];
+            dataset1 = [];
+            var day = ['월', '화', '수', '목', '금', '토', '일']
+
+            for(var i=0; i < day.length; i++) {
+                if(i >= stepcount_1.length) {
+                    dataset.push({'name': day[i], 'value': null});
+                } else {
+                    dataset.push({'name': day[i], 'value': parseInt(stepcount_1[i])});
+                }  
+            }
+
+            for(var i=0; i < day.length; i++) {
+                if(i >= stepcount_2.length) {
+                    dataset1.push({'name': day[i], 'value': null});
+                } else {
+                    dataset1.push({'name': day[i], 'value': parseInt(stepcount_2[i])});
+                } 
+            }
+
+
+            // y축 ticks 설정
+            data_max = [];
+            data_max.push({'value' : d3.max(dataset, d => d.value)});
+            data_max.push({'value' : d3.max(dataset1, d => d.value)});
+
+            data_min = [];
+            data_min.push({'value' : d3.min(dataset, d => d.value)});
+            data_min.push({'value' : d3.min(dataset1, d => d.value)});
+
+
+            // 기본적인 마진값
+            var width = 300;
+            var height = 300;
+            var margin = {top: 40, left: 40, bottom: 70, right: 5};
+
+            // canvas 사이즈
+            var svg = d3
+            .select("#vis")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+
+            // graph 사이즈
+            var graph = svg
+            .append("g")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            // 축 범위 설정
+            var x = d3
+            .scaleBand()
+            .domain(dataset1.map(d => d.name))
+            .range([ 0, width - margin.left ])
+            .padding(0.5);
+
+            var y = d3
+            .scaleLinear()
+            .domain([d3.min(data_min, d => (d.value/100)*90), d3.max(data_max, d => (d.value/100)*105)]).nice()
+            .range([ height - margin.bottom, 0]);
+
+            // axis groups
+            var xAxisGroup = graph
+            .append("g")
+            .attr("class", "x-axis")
+            .style("font-size", "11px")
+            .attr("transform", "translate(0," + (height - margin.bottom) + ")");
+            
+
+            var yAxisGroup = graph
+            .append("g")
+            .style("font-size", "9px")
+            .attr("class", "y-axis");
+
+            // create axes
+            var xAxis = d3
+            .axisBottom(x)
+
+            
+            var yAxis = d3
+            .axisLeft(y)
+            .ticks(6)
+
+            // call axes
+            xAxisGroup.call(xAxis).selectAll('line').remove();
+            yAxisGroup.call(yAxis).selectAll('line').remove();
+
+            // gridlines in y axis function
+            function make_y_gridlines() {		
+            return d3.axisLeft(y)
+                .ticks(6)
+            }
+
+            // add the Y gridlines
+            graph.append("g")			
+            .attr("class", "grid")
+            .attr('fill','none')
+            .attr('stroke', '#DCDCDC')
+            .attr('stroke-width',0.1)
+            .attr('shape-rendering','crispEdges')
+            .call(make_y_gridlines()
+                .tickSize(-width)
+                .tickFormat("")
+            )
+
+
+            // d3 Line path generator *****
+            var line = d3
+            .line()
+            .x(function(d) {
+                
+                return x(d.name) + 10;
+            })
+            .y(function(d) {
+                return y(d.value);
+            });
+
+            // line path element
+            var path = graph.append("path");
+
+            // update line path data *****
+            path
+            .attr("d", line(dataset)) 
+            .attr("fill", "none")
+            .attr("stroke", "#198754")
+            .attr("stroke-width", 2);
+
+            var line1 = d3
+            .line()
+            .x(function(d) { 
+            
+                return x(d.name) + 10;
+
+            })
+            .y(function(d) {
+                return y(d.value);
+            });
+
+            // line path element
+            var path1 = graph.append("path");
+
+            // update line path data *****
+            path1
+            .attr("d", line1(dataset1)) 
+            .attr("fill", "none")
+            .attr("stroke", "#6c757d")
+            .attr("stroke-width", 2);
+
+        }
+
+        function compare_month(days, stepcount_1, stepcount_2) {
+            // 쿼리 결과 값 저장 변수
+            dataset = [];
+            dataset1 = [];
+
+            for(var i=0; i < days.length; i++) {
+                if(i >= stepcount_1.length) {
+                    dataset.push({'name': days[i].slice(8,10), 'value': null});
+                } else {
+                    dataset.push({'name': days[i].slice(8,10), 'value': parseInt(stepcount_1[i])});
+                }  
+            }
+
+            for(var i=0; i < days.length; i++) {
+                dataset1.push({'name': days[i].slice(8,10), 'value': parseInt(stepcount_2[i])});
+            }
+
+
+            // y축 ticks 설정
+            data_max = [];
+            data_max.push({'value' : d3.max(dataset, d => d.value)});
+            data_max.push({'value' : d3.max(dataset1, d => d.value)});
+
+            data_min = [];
+            data_min.push({'value' : d3.min(dataset, d => d.value)});
+            data_min.push({'value' : d3.min(dataset1, d => d.value)});
+
+
+            // 기본적인 마진값
+            var width = 300;
+            var height = 300;
+            var margin = {top: 40, left: 40, bottom: 70, right: 5};
+
+            // canvas 사이즈
+            var svg = d3
+            .select("#vis")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height)
+
+            // graph 사이즈
+            var graph = svg
+            .append("g")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("transform",
+                    "translate(" + margin.left + "," + margin.top + ")");
+
+            // 축 범위 설정
+            var x = d3
+            .scaleBand()
+            .domain(dataset1.map(d => d.name))
+            .range([ 0, width - margin.left ])
+            .padding(0.5);
+
+            var y = d3
+            .scaleLinear()
+            .domain([d3.min(data_min, d => (d.value/100)*90), d3.max(data_max, d => (d.value/100)*105)]).nice()
+            .range([ height - margin.bottom, 0]);
+
+            // axis groups
+            var xAxisGroup = graph
+            .append("g")
+            .attr("class", "x-axis")
+            .style("font-size", "11px")
+            .attr("transform", "translate(0," + (height - margin.bottom) + ")");
+            
+
+            var yAxisGroup = graph
+            .append("g")
+            .style("font-size", "9px")
+            .attr("class", "y-axis");
+
+            // create axes
+            var xAxis = d3
+            .axisBottom(x)
+            .tickFormat(g => g%2==1 ? g : null)
+
+            
+            var yAxis = d3
+            .axisLeft(y)
+            .ticks(6)
+
+            // call axes
+            xAxisGroup.call(xAxis).selectAll('line').remove();
+            yAxisGroup.call(yAxis).selectAll('line').remove();
+
+            // gridlines in y axis function
+            function make_y_gridlines() {		
+            return d3.axisLeft(y)
+                .ticks(6)
+            }
+
+            // add the Y gridlines
+            graph.append("g")			
+            .attr("class", "grid")
+            .attr('fill','none')
+            .attr('stroke', '#DCDCDC')
+            .attr('stroke-width',0.1)
+            .attr('shape-rendering','crispEdges')
+            .call(make_y_gridlines()
+                .tickSize(-width)
+                .tickFormat("")
+            )
+
+
+            // d3 Line path generator *****
+            var line = d3
+            .line()
+            .x(function(d) {
+                
+                return x(d.name);
+            })
+            .y(function(d) {
+                return y(d.value);
+            });
+
+            // line path element
+            var path = graph.append("path");
+
+            // update line path data *****
+            path
+            .attr("d", line(dataset)) 
+            .attr("fill", "none")
+            .attr("stroke", "#198754")
+            .attr("stroke-width", 2);
+
+            var line1 = d3
+            .line()
+            .x(function(d) { 
+            
+                return x(d.name);
+
+            })
+            .y(function(d) {
+                return y(d.value);
+            });
+
+            // line path element
+            var path1 = graph.append("path");
+
+            // update line path data *****
+            path1
+            .attr("d", line1(dataset1)) 
+            .attr("fill", "none")
+            .attr("stroke", "#6c757d")
+            .attr("stroke-width", 2);
+        }
         
         
     </script>
