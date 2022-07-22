@@ -66,7 +66,7 @@
                     var days = [];
                     var new_stepcount = []
                     for(var i = 0; i<(response.date).length; i++) {
-                            days.push(response.date[i].saved_time);
+                            days.push(response.date[i].date);
                             new_stepcount.push(response.date[i].stepCount);
                         }
                     console.log(typeof(days[0]));

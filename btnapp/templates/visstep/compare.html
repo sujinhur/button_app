@@ -8,13 +8,13 @@
         <p class = "text-center" style="font-size: 12px; color: #6c757d;">** 비교기간은 주별(월~일)/월별(1일~말일)로 설정해 주세요.</p>
     </div>
     <div class="col-md-12 text-center" style="margin-top: 5%;">
-        <button type="button" class="btn btn-success opacity-75 rounded-pill" id="daterangepicker">
+        <button type="button" class="btn opacity-75 rounded-pill" style="background-color: #fd7e14; color: white;" id="daterangepicker">
             {{ date_range_1 }}
         </button>
     </div>
 
     <div class="col-md-12 text-center" style="margin-top: 2%;">
-        <button type="button" class="btn btn-secondary opacity-75 rounded-pill" id="daterangepicker2">
+        <button type="button" class="btn btn-success opacity-75 rounded-pill" id="daterangepicker2">
             {{ date_range_2 }}
         </button>
     </div>
@@ -77,11 +77,11 @@
     				console.log("[response] : " + response);
     				console.log(""); 
                     $('#daterangepicker').html(response.date_range)
-                    var start = response.date[0].saved_time
+                    var start = response.date[0].date
                     var days_1 = [];
                     var new_stepcount_1 = []
                     for(var i = 0; i<(response.date).length; i++) {
-                            days_1.push(response.date[i].saved_time);
+                            days_1.push(response.date[i].date);
                             new_stepcount_1.push(response.date[i].stepCount);
                         }
                    
@@ -123,7 +123,7 @@
                                 var days_2 = [];
                                 var new_stepcount_2 = []
                                 for(var i = 0; i<(response.date).length; i++) {
-                                        days_2.push(response.date[i].saved_time);
+                                        days_2.push(response.date[i].date);
                                         new_stepcount_2.push(response.date[i].stepCount);
                                     }
                                 

@@ -1,8 +1,68 @@
 {% extends "chat_base.html" %}
 
-{% block main %}
-    <p>visvis</p>
-{% endblock %}
-
 {% block script %}
+
+<script>
+
+    $('#btn_submit').click(function () {
+        send();
+    });
+
+    $('#form').on('submit', function(e){
+        e.preventDefault();
+        send();
+    });
+    
+    function send(){
+        // 입력 값 없으면 에러 메세지
+        if($('#input1').val() == ''){
+          alert("input message!");
+        }
+
+        // 입력 값 있을 때 처리
+        else{
+            $('#chatting').append('<div class="msg_box send"><span>'+$('#input1').val()+'<span></div>');
+            $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
+            console.log("serial"+$('#form').serialize())
+            $.ajax({
+                url:  'http://127.0.0.1:8000/chat/', // 챗봇 api url
+                // async:false,
+                type: 'post',
+                dataType: 'json',
+                data: $('#form').serialize(),
+                success: function(data) {
+                    // $('#response').html(data.reponse);
+                    console.log(data.response)
+                    var label = data.label
+                    var date_1 = data.date_1.substr(8)
+                    var date_2 = data.date_2.substr(8)
+                    var stepcount_1 = data.stepcount_1
+                    var stepcount_2 = data.stepcount_2
+                    $('#chatting').append('<div class="msg_box receive"><span>'+ data.response +'</span></div>');
+                    $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
+                    $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
+                    $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
+
+                    if(label == 'weeks'){
+                        $.getScript("../../static/js/chat_weeks.js")
+                    }
+                    else if(label == 'months'){
+                        $.getScript("../../static/js/chat_months.js")
+                    }
+                    else if(label == 'date_avg'){
+                        $.getScript("../../static/js/date_avg.js")
+                    }
+                    else{
+                        $.getScript("../../static/js/chat_years.js")
+                    }
+                }
+            });
+            $('#input1').val('');
+
+            
+            
+        }
+    }
+    </script>
+
 {% endblock %}

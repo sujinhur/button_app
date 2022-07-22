@@ -125,7 +125,7 @@ var path = graph.append("path");
 path
 .attr("d", line(dataset)) 
 .attr("fill", "none")
-.attr("stroke", "#198754")
+.attr("stroke", "#fd7e14")
 .attr("stroke-width", 2);
 
 var line1 = d3
@@ -146,5 +146,5 @@ var path1 = graph.append("path");
 path1
 .attr("d", line1(dataset1)) 
 .attr("fill", "none")
-.attr("stroke", "#6c757d")
+.attr("stroke", "#198754")
 .attr("stroke-width", 2);
