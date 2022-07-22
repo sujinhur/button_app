@@ -197,7 +197,7 @@ def compare(request):
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
     
-    print(start_date)
+    # print(start_date)
 
     if not start_date:
 
@@ -225,7 +225,7 @@ def compare(request):
     
     else:
         date = StepCount_Data.objects.filter(date__range = [start_date, end_date])
-        print(date)
+        # print(date)
         first_date = StepCount_Data.objects.get(date = str(date[0])).date
         final_date = StepCount_Data.objects.get(date = str(date[len(date)-1])).date
         date_range = str(first_date.month) + "월 " + str(first_date.day) + "일 ~ " + str(final_date.month) + "월 " + str(final_date.day) + "일"

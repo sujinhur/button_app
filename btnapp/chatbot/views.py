@@ -136,7 +136,7 @@ def predict(predict_sentence: str):
             probability = []
             logits = np.round(new_softmax(logits), 3).tolist()
             for logit in logits:
-                print(logit)
+                # print(logit)
                 probability.append(np.round(logit, 3))
 
             if np.argmax(logits) == 0:  emotion = "Today"
@@ -145,7 +145,7 @@ def predict(predict_sentence: str):
             
 
             probability.append(emotion)
-            print(probability)
+            # print(probability)
     return probability
 
 # kobert class
@@ -235,11 +235,11 @@ def get_query(user_input1: str, label):
     okt = Okt()
     
     tmp_seq = [" ".join(okt.morphs(user_input1))]
-    print("tmp_seq : ", tmp_seq)
+    # print("tmp_seq : ", tmp_seq)
 
     test_data = list()
     test_data = tokenizer.texts_to_sequences(tmp_seq)
-    print("tokenized data : ", test_data)
+    # print("tokenized data : ", test_data)
 
     prd_data = tf.keras.preprocessing.sequence.pad_sequences(test_data,value=0,padding='pre',maxlen=128)
 
@@ -248,8 +248,8 @@ def get_query(user_input1: str, label):
     for seq in prd_data :
         prediction = test_step(model, seq)
         predicted_seq = tokenizer.sequences_to_texts(prediction.numpy())
-        print(predicted_seq)
-        print("predict tokens : ", prediction.numpy())
+        # print(predicted_seq)
+        # print("predict tokens : ", prediction.numpy())
 
     predicted_seq = str(predicted_seq[0])
     # predicted_seq = str(predicted_seq[0]).replace(" _ ", "_")
@@ -259,7 +259,7 @@ def get_query(user_input1: str, label):
     predicted_seq = predicted_seq.replace(" - ", "-")
     predicted_seq = predicted_seq.replace("+ ", "+")
     predicted_seq = predicted_seq.replace("- ", "-")
-    print(predicted_seq)
+    # print(predicted_seq)
 
     result = "select * from stepCount where date " + predicted_seq + " ORDER BY (date) ASC"
     return result
