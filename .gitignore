@@ -293,4 +293,7 @@ pip-selfcheck.json
 # pytorch models
 *.pt
 
+# secrets.json
+secrets.json
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,python,venv,django
