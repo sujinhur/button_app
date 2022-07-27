@@ -11,9 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import os
-import json
-from django.core.exceptions import ImproperlyConfigured
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,7 +26,7 @@ SECRET_KEY = 'django-insecure--&0b_s9q6=pgxbpg+#u0o^2*ddz52lzwojt&k@a@9%uw7zvk4c
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.125.105.66']
+ALLOWED_HOSTS = ['15.164.216.140']
 
 
 # Application definition
@@ -131,16 +128,3 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-secret_file = os.path.join(BASE_DIR, "secrets.json")
-
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
-
-def get_secret(setting, secrets=secrets):
-    try:
-        return secrets[setting]
-    except KeyError:
-        error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyConfigured(error_msg)
-
-SECRET_KEY = get_secret("SECRET_KEY")
