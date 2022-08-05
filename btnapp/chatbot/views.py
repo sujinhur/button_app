@@ -56,36 +56,37 @@ def chat(request):
         # 유저 입력이 어떠한 종류의 query인지 판별
         result = get_query(input1, label)
 
-        date_1 = []
-        date_2 = []
-        stepcount_1 = []
-        stepcount_2 = []
-        if label == 'Compare':
-            pass
+        # date_1 = []
+        # date_2 = []
+        # stepcount_1 = []
+        # stepcount_2 = []
+        # if label == 'Compare':
+        #     pass
 
-        elif label == 'Specify':
-            for i in StepCount_Data.objects.raw(result):
-                date_1.append(i.date)
-                stepcount_1.append(i.stepCount)
-            answer = str(date_1[0]) + " ~ " + str(date_1[-1]) + " 걸음 수입니다."
+        # elif label == 'Specify':
+        #     for i in StepCount_Data.objects.raw(result):
+        #         date_1.append(i.date)
+        #         stepcount_1.append(i.stepCount)
+        #     answer = str(date_1[0]) + " ~ " + str(date_1[-1]) + " 걸음 수입니다."
             
-            if result.find("BETWEEN date('now', '-14 days', 'weekday 1')  and date('now', '-7 days','weekday 0')") == -1:
-                label = "months"
-            else:
-                label = "weeks"
+        #     if result.find("BETWEEN date('now', '-14 days', 'weekday 1')  and date('now', '-7 days','weekday 0')") == -1:
+        #         label = "months"
+        #     else:
+        #         label = "weeks"
 
-        else:
-            for i in StepCount_Data.objects.raw(result):
-                date_1.append(i.date)
-                stepcount_1.append(i.stepCount)
+        # else:
+        #     for i in StepCount_Data.objects.raw(result):
+        #         date_1.append(i.date)
+        #         stepcount_1.append(i.stepCount)
 
         output = dict()
-        output['response'] = answer
-        output['date_1'] = date_1
-        output['date_2'] = date_2
-        output['stepcount_1'] = stepcount_1
-        output['stepcount_2'] = stepcount_2
+        # output['response'] = answer
+        # output['date_1'] = date_1
+        # output['date_2'] = date_2
+        # output['stepcount_1'] = stepcount_1
+        # output['stepcount_2'] = stepcount_2
         output['label'] = label
+        output['result'] = result
         return HttpResponse(json.dumps(output), status=200)
     else:
         return render(request, 'chatbot/chat.html')
