@@ -54,7 +54,7 @@ def chat(request):
         label = predict(input1)[-1]
 
         # 유저 입력이 어떠한 종류의 query인지 판별
-        result = get_query(input1, label)
+        # result = get_query(input1, label)
 
         # date_1 = []
         # date_2 = []
@@ -86,7 +86,7 @@ def chat(request):
         # output['stepcount_1'] = stepcount_1
         # output['stepcount_2'] = stepcount_2
         output['label'] = label
-        output['result'] = result
+        # output['result'] = result
         return HttpResponse(json.dumps(output), status=200)
     else:
         return render(request, 'chatbot/chat.html')
@@ -102,7 +102,7 @@ def new_softmax(a) :
 def predict(predict_sentence: str):
 
     model = BERTClassifier(bertmodel, dr_rate=0.5).to(device)
-    model.load_state_dict(torch.load('./static/classification_model/classification_model_state_dict.pt'))
+    model.load_state_dict(torch.load('./../../classification_model/classification_model_state_dict.pt'))
 
     max_len = 64
     batch_size = 64

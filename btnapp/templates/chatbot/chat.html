@@ -32,14 +32,13 @@
                 data: $('#form').serialize(),
                 success: function(data) {
                     // $('#response').html(data.reponse);
-                    console.log(data.result)
                     // console.log(data.response)
-                    // var label = data.label
+                    var label = data.label
                     // var date_1 = data.date_1.substr(8)
                     // var date_2 = data.date_2.substr(8)
                     // var stepcount_1 = data.stepcount_1
                     // var stepcount_2 = data.stepcount_2
-                    $('#chatting').append('<div class="msg_box receive"><span>'+ data.result +'</span></div>');
+                    $('#chatting').append('<div class="msg_box receive"><span>'+ data.label +'</span></div>');
                     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
                     // $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
                     // $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
@@ -56,7 +55,13 @@
                     // else{
                     //     $.getScript("../../static/js/chat_years.js")
                     // }
-                }
+                },
+                /* 에러 확인 부분 */
+    			error: function(xhr) {
+                    alert("실패") 
+    				console.log("[error] : " + JSON.stringify(xhr));
+    				console.log("");     				
+    			}
             });
             $('#input1').val('');
 
