@@ -101,13 +101,13 @@ def new_softmax(a) :
 
 def predict(predict_sentence: str):
 
-    max_len = 64
-    batch_size = 64
-    warmup_ratio = 0.1
-    num_epochs = 30
-    max_grad_norm = 1
-    log_interval = 200
-    learning_rate =  5e-5
+    # max_len = 64
+    # batch_size = 64
+    # warmup_ratio = 0.1
+    # num_epochs = 30
+    # max_grad_norm = 1
+    # log_interval = 200
+    # learning_rate =  5e-5
 
     model = BERTClassifier(bertmodel, dr_rate=0.5).to(device)
     model.load_state_dict(torch.load('./../../classification_model/classification_model_state_dict.pt',  map_location=device))
