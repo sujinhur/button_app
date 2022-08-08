@@ -35,7 +35,7 @@ from kobert.utils import get_tokenizer
 from kobert.pytorch_kobert import get_pytorch_kobert_model
 
 # GPU 사용
-device = torch.device("cuda:0")
+device = torch.device("cpu")
 
 #BERT 모델, Vocabulary 불러오기 필수
 bertmodel, vocab = get_pytorch_kobert_model()
