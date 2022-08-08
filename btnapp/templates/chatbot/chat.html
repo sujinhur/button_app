@@ -57,9 +57,9 @@
                     // }
                 },
                 /* 에러 확인 부분 */
-    			error: function(xhr) {
-                    alert("실패") 
-    				console.log("[error] : " + JSON.stringify(xhr));
+    			error: function(request,status,error) {
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+    				// console.log("[error] : " + JSON.stringify(xhr));
     				console.log("");     				
     			}
             });
