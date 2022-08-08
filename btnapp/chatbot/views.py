@@ -48,7 +48,7 @@ NUM_WORDS = 500
 def chat(request):
     if request.method == 'POST':
         input1 = request.POST.get('input1')
-        input1 = request.POST['input1']
+        # input1 = request.POST['input1']
 
         # 텍스트의 라벨 판별
         label = predict(input1)[-1]
