@@ -27,7 +27,7 @@
             $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
             console.log("serial"+$('#form').serialize())
             $.ajax({
-                url:  'http://127.0.0.1:8000/chat/', // 챗봇 api url
+                url:  'http://15.164.216.140:8000/chat/', // 챗봇 api url
                 async:false,
                 type: 'post',
                 dataType: 'JSON',
@@ -63,7 +63,8 @@
                     alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
     				// console.log("[error] : " + JSON.stringify(xhr));
     				console.log("");     				
-    			}
+    			},
+                
             });
             $('#input1').val('');
 
