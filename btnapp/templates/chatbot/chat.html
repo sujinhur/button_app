@@ -28,7 +28,7 @@
                 url:  'http://127.0.0.1:8000/chat/', // 챗봇 api url
                 async:false,
                 type: 'post',
-                dataType: 'json',
+                dataType: 'JSONP',
                 data: $('#form').serialize(),
                 success: function(data) {
                     // $('#response').html(data.reponse);
