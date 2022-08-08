@@ -4,6 +4,8 @@
 
 <script>
 
+    var label;
+
     $('#btn_submit').click(function () {
         send();
     });
@@ -28,12 +30,12 @@
                 url:  'http://127.0.0.1:8000/chat/', // 챗봇 api url
                 async:false,
                 type: 'post',
-                dataType: 'JSONP',
+                dataType: 'JSON',
                 data: $('#form').serialize(),
                 success: function(data) {
                     // $('#response').html(data.reponse);
                     // console.log(data.response)
-                    var label = data.label
+                    label = data.label
                     // var date_1 = data.date_1.substr(8)
                     // var date_2 = data.date_2.substr(8)
                     // var stepcount_1 = data.stepcount_1
