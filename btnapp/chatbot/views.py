@@ -110,7 +110,7 @@ def predict(predict_sentence: str):
     learning_rate =  5e-5
 
     model = BERTClassifier(bertmodel, dr_rate=0.5).to(device)
-    model.load_state_dict(torch.load('./../../classification_model/classification_model_state_dict.pt'))
+    model.load_state_dict(torch.load('/../../classification_model/classification_model_state_dict.pt'))
 
     max_len = 64
     batch_size = 64
