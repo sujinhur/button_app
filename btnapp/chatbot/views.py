@@ -67,7 +67,7 @@ def chat(request):
 
         elif label == 'Specify':
             for i in StepCount_Data.objects.raw(result):
-                date_1.append(i.date)
+                date_1.append(str(i.date))
                 stepcount_1.append(i.stepCount)
             answer = str(date_1[0]) + " ~ " + str(date_1[-1]) + " 걸음 수입니다."
             
@@ -78,7 +78,7 @@ def chat(request):
 
         else:
             for i in StepCount_Data.objects.raw(result):
-                date_1.append(i.date)
+                date_1.append(str(i.date))
                 stepcount_1.append(i.stepCount)
 
         output = dict()
