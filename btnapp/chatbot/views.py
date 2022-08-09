@@ -1,3 +1,4 @@
+from cProfile import label
 import imp
 from urllib import response
 from django.shortcuts import render
@@ -51,8 +52,8 @@ def chat(request):
         # input1 = request.POST['input1']
 
         # 텍스트의 라벨 판별
-        label = predict(input1)[-1]
-
+        # label = predict(input1)[-1]
+        label = input1 + "입니다."
         # 유저 입력이 어떠한 종류의 query인지 판별
         # result = get_query(input1, label)
 
@@ -194,7 +195,7 @@ class BERTDataset(Dataset):
         transform = nlp.data.BERTSentenceTransform(
             bert_tokenizer, max_seq_length=max_len, pad=pad, pair=pair)
 
-        self.sentences = [transform([i[sent_idx]]) for i in dataset if i]
+        self.sentences = [transform([i[sent_idx]]) for i in dataset]
         self.labels = [np.int32(i[label_idx]) for i in dataset]
 
     def __getitem__(self, i):
