@@ -192,8 +192,8 @@ margin-bottom: 0;
     width: 100%;
     padding: 10px 15px;
     border-bottom: 1px solid #95a6b4;
-    background-color: #198754;
-    opacity: 0.75;
+    background-color: #439f76;
+    z-index: 2;
 }
 
 .chat_content {
@@ -204,7 +204,7 @@ margin-bottom: 0;
     padding-left: 15px;
     padding-bottom: 50px;
     padding-right: 15px;
-    
+    z-index: 1;
     
 }
 
