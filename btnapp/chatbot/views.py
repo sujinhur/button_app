@@ -48,8 +48,8 @@ NUM_WORDS = 500
 @csrf_exempt
 def chat(request):
     if request.method == 'POST':
-        input1 = request.POST.get('input1')
-        # input1 = request.POST['input1']
+        # input1 = request.POST.get('input1')
+        input1 = request.POST['input1']
 
         # 텍스트의 라벨 판별
         # label = predict(input1)[-1]
@@ -101,14 +101,6 @@ def new_softmax(a) :
     return np.round(y, 3)
 
 def predict(predict_sentence: str):
-
-    # max_len = 64
-    # batch_size = 64
-    # warmup_ratio = 0.1
-    # num_epochs = 30
-    # max_grad_norm = 1
-    # log_interval = 200
-    # learning_rate =  5e-5
 
     model = BERTClassifier(bertmodel, dr_rate=0.5).to(device)
     model.load_state_dict(torch.load('./../../classification_model/classification_model_state_dict.pt',  map_location=device))
