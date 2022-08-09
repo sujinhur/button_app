@@ -52,8 +52,8 @@ def chat(request):
         input1 = request.POST['input1']
 
         # 텍스트의 라벨 판별
-        # label = predict(input1)[-1]
-        label = input1 + "입니다."
+        label = predict(input1)[-1]
+        
         # 유저 입력이 어떠한 종류의 query인지 판별
         # result = get_query(input1, label)
 
