@@ -5,6 +5,7 @@
 <script>
 
     var label;
+    var result;
 
     $('#btn_submit').click(function () {
         send();
@@ -36,11 +37,13 @@
                     // $('#response').html(data.reponse);
                     // console.log(data.response)
                     label = data.label
+                    result = data.result
                     // var date_1 = data.date_1.substr(8)
                     // var date_2 = data.date_2.substr(8)
                     // var stepcount_1 = data.stepcount_1
                     // var stepcount_2 = data.stepcount_2
                     $('#chatting').append('<div class="msg_box receive"><span>'+ label +'</span></div>');
+                    $('#chatting').append('<div class="msg_box receive"><span>'+ result +'</span></div>');
                     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
                     // $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
                     // $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
