@@ -1,7 +1,6 @@
 /* stylelint-disable selector-list-comma-newline-after */
 
 .blog-header {
-    position:fixed;
     line-height: 1;
     border-bottom: 1px solid #198754;
 }
@@ -189,6 +188,8 @@ margin-bottom: 0;
 
   /* chat css */
 .chat_header {
+    position: fixed;
+    width: 100%;
     padding: 10px 15px;
     border-bottom: 1px solid #95a6b4;
     background-color: #198754;
@@ -199,7 +200,11 @@ margin-bottom: 0;
     height: 100%;
     width: 100%;
     overflow-y:scroll;
-    padding:15px 15px 15px 30px;
+    padding-top:90px; 
+    padding-left: 15px;
+    padding-bottom: 50px;
+    padding-right: 15px;
+    
     
 }
 
