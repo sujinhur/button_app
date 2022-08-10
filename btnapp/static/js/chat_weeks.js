@@ -28,7 +28,15 @@ var x = d3.scaleBand()
   .call(d3.axisBottom(x)
     .tickSizeOuter(0))
   .call(g => g.select('.domain').remove())
-  .call(g => g.selectAll('line').remove());
+  .call(g => g.selectAll('line').remove())
+  .attr('transform', function(d){
+    if(data[1].name.length >= 14){
+      return "rotate(-25)"
+    }
+    else {
+      return "rotate(0)"
+    }
+  });
 
   var yAxis = g => g
   .attr('transform', `translate(${margin.left}, 0)`)
@@ -44,15 +52,7 @@ var x = d3.scaleBand()
     var svg = d3.select('#vis').append('svg').style('width', width).style('height', height);
 
 
-svg.append('g').call(xAxis).style("font-size", "11px")
-  .attr('transform', function(d){
-    if(data[1].name.length >= 14){
-      return "rotate(-25)"
-    }
-    else {
-      return "rotate(0)"
-    }
-  });
+svg.append('g').call(xAxis).style("font-size", "11px");
 svg.append('g').call(yAxis).style("font-size", "9px");
 
 svg.append('g')
