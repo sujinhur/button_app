@@ -145,7 +145,7 @@ def avg_weeks(result):
     tmp_date = []
     tmp_stepcount = 0
     tmp = 0
-    last_data = result[-1].date
+    last_data = result.last()
 
     for i in StepCount_Data.objects.raw(result):
         if i.date.weekday() != 0:

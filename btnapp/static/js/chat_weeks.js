@@ -44,7 +44,11 @@ var x = d3.scaleBand()
     var svg = d3.select('#vis').append('svg').style('width', width).style('height', height);
 
 
-svg.append('g').call(xAxis).style("font-size", "11px");
+svg.append('g').call(xAxis)
+  .selectAll("text")
+  .style("text-anchor", "end")
+  .attr("transform", "rotate(-25)")
+  .style("font-size", "11px");
 svg.append('g').call(yAxis).style("font-size", "9px");
 
 svg.append('g')
