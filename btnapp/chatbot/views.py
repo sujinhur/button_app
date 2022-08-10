@@ -81,7 +81,7 @@ def chat(request):
                 label = "month"
 
         else:
-            if "-6 days" or "-13 days" or "-20 days" or "-27 days" or "start of month" in result:
+            if ("-6 days" or "-13 days" or "-20 days" or "-27 days" or "start of month") in result:
                 for i in StepCount_Data.objects.raw(result):
                     date_1.append(str(i.date)[8:])
                     stepcount_1.append(i.stepCount)
@@ -101,7 +101,7 @@ def chat(request):
                     answer = "이번 달 걸음 수입니다."
                     label = "month"
 
-            elif "-2 month" or "-3 month" in result:
+            elif ("-2 month" or "-3 month") in result:
                 label = "avg_weeks"
                 answer, date_1, stepcount_1 = avg_weeks(result)
                 
