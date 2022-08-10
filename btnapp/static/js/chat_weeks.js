@@ -46,7 +46,7 @@ var x = d3.scaleBand()
 
 svg.append('g').call(xAxis).style("font-size", "11px")
   .attr('transform', function(d){
-    if(dataset[1].name.length >= 14){
+    if(data[1].name.length >= 14){
       return "rotate(-25)"
     }
   });
