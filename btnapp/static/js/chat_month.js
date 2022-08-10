@@ -40,7 +40,7 @@ var yAxis = g => g
     .style('stroke-width', 2))
   
    
-var svg = d3.select('#data.vis_index').append('svg').style('width', width).style('height', height);
+var svg = d3.select('#vis_index').append('svg').style('width', width).style('height', height);
 
 
 svg.append('g').call(xAxis).style("font-size", "10px");
