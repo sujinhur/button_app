@@ -10,7 +10,7 @@
     var date_2;
     var stepcount_1;
     var stepcount_2;
-    var vis = 0;
+    var vis;
 
     $('#btn_submit').click(function () {
         send();
@@ -46,7 +46,7 @@
                     date_2 = data.date_2
                     stepcount_1 = data.stepcount_1
                     stepcount_2 = data.stepcount_2
-                    vis = data.vis_index
+                    vis = "vis_" + data.vis_index
                     $('#chatting').append('<div class="msg_box receive"><span>'+ response +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ label +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ result +'</span></div>');
