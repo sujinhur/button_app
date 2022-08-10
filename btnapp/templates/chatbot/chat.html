@@ -3,7 +3,7 @@
 {% block script %}
 
 <script>
-
+    var response;
     var label;
     var result;
     var date_1;
@@ -38,33 +38,33 @@
                 dataType: 'JSON',
                 data: $('#form').serialize(),
                 success: function(data) {
-                    // $('#response').html(data.reponse);
-                    // console.log(data.response)
+                    response = data.response
                     label = data.label
-                    result = data.result
+                    result = data.result // 나중에 삭제
                     date_1 = data.date_1
                     date_2 = data.date_2
                     stepcount_1 = data.stepcount_1
                     stepcount_2 = data.stepcount_2
+                    $('#chatting').append('<div class="msg_box receive"><span>'+ response +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ label +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ result +'</span></div>');
-                    $('#chatting').append('<div class="msg_box receive"><span>'+ date_1 +'</span></div>');
+                    $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
                     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
                     // $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
                     // $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
 
-                    // if(label == 'weeks'){
-                    //     $.getScript("../../static/js/chat_weeks.js")
-                    // }
-                    // else if(label == 'months'){
-                    //     $.getScript("../../static/js/chat_months.js")
-                    // }
-                    // else if(label == 'date_avg'){
-                    //     $.getScript("../../static/js/date_avg.js")
-                    // }
-                    // else{
-                    //     $.getScript("../../static/js/chat_years.js")
-                    // }
+                    if(label == 'weeks'){
+                        $.getScript("../../static/js/chat_weeks.js")
+                    }
+                    else if(label == 'month'){
+                        $.getScript("../../static/js/chat_month.js")
+                    }
+                    else if(label == 'date_avg'){
+                        $.getScript("../../static/js/date_avg.js")
+                    }
+                    else{
+                        $.getScript("../../static/js/chat_years.js")
+                    }
                 },
                 /* 에러 확인 부분 */
     			error: function(request,status,error) {

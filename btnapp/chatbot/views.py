@@ -67,15 +67,19 @@ def chat(request):
 
         elif label == 'Specify':
             for i in StepCount_Data.objects.raw(result):
-                date_1.append(str(i.date))
+                date_1.append(str(i.date)[8:])
                 stepcount_1.append(i.stepCount)
-            answer = str(date_1[0]) + " ~ " + str(date_1[-1]) + " 걸음 수입니다."
             
-            if result.find("BETWEEN date('now', '-14 days', 'weekday 1')  and date('now', '-7 days','weekday 0')") == -1:
-                label = "months"
-            else:
+            if "-14 days" in result:
+                answer = "지난주 걸음 수입니다."
                 label = "weeks"
-
+            elif "start of month" in result:
+                answer = "저번 달 걸음 수입니다"
+                label = "month"
+            else:    
+                answer = str(StepCount_Data.objects.raw(result)[0].date)[:4] + "년 " + str(StepCount_Data.objects.raw(result)[0].date)[5:7] + "월 걸음 수입니다."
+                label = "month"
+                
         else:
             for i in StepCount_Data.objects.raw(result):
                 date_1.append(str(i.date))
@@ -87,8 +91,8 @@ def chat(request):
         output['date_2'] = date_2
         output['stepcount_1'] = stepcount_1
         output['stepcount_2'] = stepcount_2
-        output['label'] = label
-        output['result'] = result
+        output['label'] = label 
+        output['result'] = result # 나중에 삭제
         return HttpResponse(json.dumps(output), status=200)
     else:
         return render(request, 'chatbot/chat.html')
