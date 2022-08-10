@@ -48,7 +48,7 @@ svg.append('g').call(xAxis)
   .selectAll("text")
   .style("text-anchor", function(d){
     if(data[1].name.length >= 7){
-      return "start"
+      return "end"
     }
     else {
       return "center"
@@ -56,7 +56,7 @@ svg.append('g').call(xAxis)
   })
   .attr("transform", function(d){
     if(data[1].name.length >= 7){
-      return "rotate(25)"
+      return "rotate(-25)"
     }
     else {
       return "rotate(0)"

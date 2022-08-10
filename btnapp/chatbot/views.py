@@ -1,5 +1,6 @@
 from cProfile import label
 import imp
+import re
 from urllib import response
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
@@ -48,11 +49,9 @@ NUM_WORDS = 500
 @csrf_exempt
 def chat(request):
     if request.method == 'POST':
-        if 'vis_index' in locals():
-            vis_index = vis_index + 1
-        else:
-            vis_index = 0
-
+        vis_index = request.POST['vis_index']
+        vis_index = vis_index[:4] + str(int(vis_index[4:]) + 1)
+        
         input1 = request.POST['input1']
 
         # 텍스트의 라벨 판별
@@ -129,11 +128,12 @@ def chat(request):
         output['stepcount_1'] = stepcount_1
         output['stepcount_2'] = stepcount_2
         output['label'] = label 
-        output['vis_index'] = "vis_" + str(vis_index)
+        output['vis_index'] = vis_index
         output['result'] = result # 나중에 삭제
         return HttpResponse(json.dumps(output), status=200)
     else:
-        return render(request, 'chatbot/chat.html')
+        vis_index = 'vis_0'
+        return render(request, 'chatbot/chat.html', context={'vis_index' : vis_index})
 
 def today_date(result):
     date_1 = []
