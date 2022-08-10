@@ -44,7 +44,12 @@ var x = d3.scaleBand()
     var svg = d3.select('#vis').append('svg').style('width', width).style('height', height);
 
 
-svg.append('g').call(xAxis).style("font-size", "11px");
+svg.append('g').call(xAxis).style("font-size", "11px")
+  .attr('transform', function(d){
+    if(dataset[1].name.length >= 14){
+      return "rotate(-25)"
+    }
+  });
 svg.append('g').call(yAxis).style("font-size", "9px");
 
 svg.append('g')
