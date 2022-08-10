@@ -153,11 +153,11 @@ def avg_weeks(result):
             tmp_stepcount = tmp_stepcount + int(i.stepCount)
             tmp = tmp + 1
             if i.date == last_data:
-                date_1.append(tmp_date[0] + " ~ " + tmp_date[-1])
+                date_1.append(tmp_date[0] + " ~")
                 stepcount_1.append(tmp_stepcount/tmp)
         else:
             if tmp_stepcount != 0:
-                date_1.append(tmp_date[0] + " ~ " + tmp_date[-1])
+                date_1.append(tmp_date[0] + " ~")
                 stepcount_1.append(tmp_stepcount/tmp)
                 tmp_date = []
                 tmp_stepcount = 0
