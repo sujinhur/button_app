@@ -57,7 +57,7 @@
                     $('#chatting').append('<div class="msg_box receive"><span>'+ response +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ label +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ result +'</span></div>');
-                    $('#chatting').append('<div class="msg_box" id="vis"><span></span></div>');
+                    $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
                     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
                     // $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
                     // $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
@@ -89,15 +89,7 @@
             
         }
     }
-    data = [];
-    width = null;
-    height = null;
-    margin = null;
-    x = null;
-    y = null;
-    xAxis = null;
-    yAxis = null;
-    svg = null;
+    
     </script>
 
 {% endblock %}
