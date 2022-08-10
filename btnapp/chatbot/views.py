@@ -79,11 +79,36 @@ def chat(request):
             else:    
                 answer = str(StepCount_Data.objects.raw(result)[0].date)[:4] + "년 " + str(StepCount_Data.objects.raw(result)[0].date)[5:7] + "월 걸음 수입니다."
                 label = "month"
-                
+
         else:
-            for i in StepCount_Data.objects.raw(result):
-                date_1.append(str(i.date))
-                stepcount_1.append(i.stepCount)
+            if "-6 days" or "-13 days" or "-20 days" or "-27 days" or "start of month" in result:
+                for i in StepCount_Data.objects.raw(result):
+                    date_1.append(str(i.date)[8:])
+                    stepcount_1.append(i.stepCount)
+                if "-6 days" in result:
+                    answer = "최근 1주일 걸음 수입니다."
+                    label = "weeks"
+                elif "-13 days" in result:
+                    answer = "최근 2주일 걸음 수입니다."
+                    label = "weeks"
+                elif "-20 days" in result:
+                    answer = "최근 3주일 걸음 수입니다."
+                    label = "month"
+                elif "-27 days" in result:
+                    answer = "최근 4주일 걸음 수입니다."
+                    label = "month"
+                else:
+                    answer = "이번 달 걸음 수입니다."
+                    label = "month"
+
+            elif "-2 month" or "-3 month" in result:
+                label = "avg_weeks"
+                answer, date_1, stepcount_1 = avg_weeks(result)
+                
+            else:
+                label = "avg_months"
+                answer, date_1, stepcount_1 = avg_months(result)
+            
 
         output = dict()
         output['response'] = answer
@@ -96,6 +121,23 @@ def chat(request):
         return HttpResponse(json.dumps(output), status=200)
     else:
         return render(request, 'chatbot/chat.html')
+
+def avg_weeks(result):
+    date_1 = []
+    stepcount_1 = []
+    answer = "걸음 수"
+    
+    for i in StepCount_Data.objects.raw(result):
+        date_1.append(str(i.date)[8:])
+        stepcount_1.append(i.stepCount)
+
+    return answer, date_1, stepcount_1
+
+def avg_months(result):
+    date_1 = []
+    stepcount_1 = []
+    answer = "걸음 수"
+    return answer, date_1, stepcount_1
 
 # kobert model
 def new_softmax(a) : 
