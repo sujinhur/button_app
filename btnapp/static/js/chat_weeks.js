@@ -1,4 +1,4 @@
-var data = []
+const data = []
 
 for(var i = 0; i < date_1.length; i++) {
     if(i >= stepcount_1.length) {
@@ -10,27 +10,27 @@ for(var i = 0; i < date_1.length; i++) {
 
 console.log(data);
 
-var width = 300;
-var height = 270;
-var margin = {top: 40, left: 40, bottom: 40, right: 5};
+const width = 300;
+const height = 270;
+const margin = {top: 40, left: 40, bottom: 40, right: 5};
 
-var x = d3.scaleBand()
+const x = d3.scaleBand()
   .domain(data.map(d => d.name))
   .range([margin.left, width - margin.right])
   .padding(0.4);
 
-  var y = d3.scaleLinear()
+  const y = d3.scaleLinear()
   .domain([0, 13000]).nice()
   .range([height - margin.bottom, margin.top]);
 
-  var xAxis = g => g
+  const xAxis = g => g
   .attr('transform', `translate(0, ${height - margin.bottom})`)
   .call(d3.axisBottom(x)
     .tickSizeOuter(0))
   .call(g => g.select('.domain').remove())
   .call(g => g.selectAll('line').remove());
 
-  var yAxis = g => g
+  const yAxis = g => g
   .attr('transform', `translate(${margin.left}, 0)`)
   .call(d3.axisLeft(y)
     .ticks(6))
@@ -41,7 +41,7 @@ var x = d3.scaleBand()
     .style('stroke-width', 2))
   
    
-    var svg = d3.select('#vis').append('svg').style('width', width).style('height', height);
+    const svg = d3.select('#vis').append('svg').style('width', width).style('height', height);
 
 
 svg.append('g').call(xAxis).style("font-size", "11px");
