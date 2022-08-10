@@ -81,30 +81,38 @@ def chat(request):
                 label = "month"
 
         else:
-            if ("-6 days" or "-13 days" or "-20 days" or "-27 days" or "start of month") in result:
-                for i in StepCount_Data.objects.raw(result):
-                    date_1.append(str(i.date)[8:])
-                    stepcount_1.append(i.stepCount)
-                if "-6 days" in result:
-                    answer = "최근 1주일 걸음 수입니다."
-                    label = "weeks"
-                elif "-13 days" in result:
-                    answer = "최근 2주일 걸음 수입니다."
-                    label = "weeks"
-                elif "-20 days" in result:
-                    answer = "최근 3주일 걸음 수입니다."
-                    label = "month"
-                elif "-27 days" in result:
-                    answer = "최근 4주일 걸음 수입니다."
-                    label = "month"
-                else:
-                    answer = "이번 달 걸음 수입니다."
-                    label = "month"
+            
+            if "-6 days" in result:
+                date_1, stepcount_1 = today_date(result)
+                answer = "최근 1주일 걸음 수입니다."
+                label = "weeks"
+            elif "-13 days" in result:
+                date_1, stepcount_1 = today_date(result)
+                answer = "최근 2주일 걸음 수입니다."
+                label = "weeks"
+            elif "-20 days" in result:
+                date_1, stepcount_1 = today_date(result)
+                answer = "최근 3주일 걸음 수입니다."
+                label = "month"
+            elif "-27 days" in result:
+                date_1, stepcount_1 = today_date(result)
+                answer = "최근 4주일 걸음 수입니다."
+                label = "month"
+            elif "start of month" in result:
+                date_1, stepcount_1 = today_date(result)
+                answer = "이번 달 걸음 수입니다."
+                label = "month"
 
-            elif ("-2 month" or "-3 month") in result:
-                label = "avg_weeks"
+            elif "-2 month" in result:
                 answer, date_1, stepcount_1 = avg_weeks(result)
+                label = "avg_weeks"
+                answer = "최근 2개월 걸음 수입니다."
                 
+            elif "-3 month" in result:
+                answer, date_1, stepcount_1 = avg_weeks(result)
+                label = "avg_weeks"
+                answer = "최근 3개월 걸음 수입니다."
+
             else:
                 label = "avg_months"
                 answer, date_1, stepcount_1 = avg_months(result)
@@ -122,12 +130,15 @@ def chat(request):
     else:
         return render(request, 'chatbot/chat.html')
 
-def avg_weeks(result):
-    if "-2 month" in result:
-        answer = "최근 2개월 걸음 수입니다."
-    else:
-        answer = "최근 3개월 걸음 수입니다."
+def today_date(result):
+    date_1 = []
+    stepcount_1 = []
+    for i in StepCount_Data.objects.raw(result):
+        date_1.append(str(i.date)[8:])
+        stepcount_1.append(i.stepCount)
+    return date_1, stepcount_1
 
+def avg_weeks(result):
     date_1 = []
     stepcount_1 = []
     answer = "걸음 수"
@@ -146,6 +157,9 @@ def avg_weeks(result):
                 stepcount_1.append(tmp_stepcount/tmp)
         else:
             if tmp_stepcount != 0:
+                tmp_date.append(str(i.date)[5:7] + "월 " + str(i.date)[8:] + "일")
+                tmp_stepcount = tmp_stepcount + int(i.stepCount)
+                tmp = tmp + 1
                 date_1.append(tmp_date[0] + " ~ " + tmp_date[-1])
                 stepcount_1.append(tmp_stepcount/tmp)
                 tmp_date = []
