@@ -12,7 +12,7 @@ console.log(data);
 
 var width = 300;
 var height = 270;
-var margin = {top: 40, left: 40, bottom: 40, right: 5};
+var margin = {top: 20, left: 40, bottom: 40, right: 5};
 
 var x = d3.scaleBand()
   .domain(data.map(d => d.name))
@@ -47,8 +47,23 @@ var x = d3.scaleBand()
 svg.append('g').call(xAxis)
   .selectAll("text")
   .style("text-anchor", "end")
-  .attr("transform", "rotate(-25)")
-  .style("font-size", "11px");
+  .attr("transform", function(d){
+    if(data[1].name.length >= 13){
+      return "rotate(-25)"
+    }
+    else {
+      return "rotate(0)"
+    }
+  })
+  .style("font-size", function(d){
+    if(data[1].name.length >= 13){
+      return "9px"
+    }
+    else {
+      return "11px"
+    }
+  });
+
 svg.append('g').call(yAxis).style("font-size", "9px");
 
 svg.append('g')
