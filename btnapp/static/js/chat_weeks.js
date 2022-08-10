@@ -1,5 +1,3 @@
-const data = []
-
 for(var i = 0; i < date_1.length; i++) {
     if(i >= stepcount_1.length) {
         data.push({'name': date_1[i], 'value': 0, color: '#add7a8'});
