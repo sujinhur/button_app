@@ -49,6 +49,9 @@ svg.append('g').call(xAxis).style("font-size", "11px")
     if(data[1].name.length >= 14){
       return "rotate(-25)"
     }
+    else {
+      return "rotate(0)"
+    }
   });
 svg.append('g').call(yAxis).style("font-size", "9px");
 
