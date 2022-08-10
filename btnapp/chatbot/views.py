@@ -48,7 +48,10 @@ NUM_WORDS = 500
 @csrf_exempt
 def chat(request):
     if request.method == 'POST':
-        vis_index = vis_index + 1
+        if vis_index == False:
+            vis_index = 0
+        else:
+            vis_index = vis_index + 1
 
         input1 = request.POST['input1']
 
