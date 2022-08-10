@@ -145,26 +145,26 @@ def avg_weeks(result):
     tmp_date = []
     tmp_stepcount = 0
     tmp = 0
-    last_index = len(result)
+    last_data = result[-1].date
 
     for i in StepCount_Data.objects.raw(result):
         if i.date.weekday() != 0:
             tmp_date.append(str(i.date)[5:7] + "월 " + str(i.date)[8:] + "일")
             tmp_stepcount = tmp_stepcount + int(i.stepCount)
             tmp = tmp + 1
-            if i == last_index - 1:
+            if i.date == last_data:
                 date_1.append(tmp_date[0] + " ~ " + tmp_date[-1])
                 stepcount_1.append(tmp_stepcount/tmp)
         else:
             if tmp_stepcount != 0:
-                tmp_date.append(str(i.date)[5:7] + "월 " + str(i.date)[8:] + "일")
-                tmp_stepcount = tmp_stepcount + int(i.stepCount)
-                tmp = tmp + 1
                 date_1.append(tmp_date[0] + " ~ " + tmp_date[-1])
                 stepcount_1.append(tmp_stepcount/tmp)
                 tmp_date = []
                 tmp_stepcount = 0
                 tmp = 0
+                tmp_date.append(str(i.date)[5:7] + "월 " + str(i.date)[8:] + "일")
+                tmp_stepcount = tmp_stepcount + int(i.stepCount)
+                tmp = tmp + 1
             else:
                 date_1.append(str(i.date)[5:7] + "월 " + str(i.date)[8:] + "일")
                 stepcount_1.append(i.stepCount)
