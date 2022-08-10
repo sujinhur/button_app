@@ -48,7 +48,8 @@ NUM_WORDS = 500
 @csrf_exempt
 def chat(request):
     if request.method == 'POST':
-        # input1 = request.POST.get('input1')
+        vis_index = vis_index + 1
+
         input1 = request.POST['input1']
 
         # 텍스트의 라벨 판별
@@ -125,6 +126,7 @@ def chat(request):
         output['stepcount_1'] = stepcount_1
         output['stepcount_2'] = stepcount_2
         output['label'] = label 
+        output['vis_index'] = vis_index
         output['result'] = result # 나중에 삭제
         return HttpResponse(json.dumps(output), status=200)
     else:

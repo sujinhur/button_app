@@ -47,7 +47,7 @@ var x = d3.scaleBand()
 svg.append('g').call(xAxis)
   .selectAll("text")
   .style("text-anchor", function(d){
-    if(data[1].name.length >= 13){
+    if(data[1].name.length >= 7){
       return "start"
     }
     else {
@@ -63,7 +63,7 @@ svg.append('g').call(xAxis)
     }
   })
   .style("font-size", function(d){
-    if(data[1].name.length >= 13){
+    if(data[1].name.length >= 7){
       return "9px"
     }
     else {
