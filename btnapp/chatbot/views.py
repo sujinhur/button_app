@@ -49,8 +49,6 @@ NUM_WORDS = 500
 @csrf_exempt
 def chat(request):
     if request.method == 'POST':
-        vis_index = request.POST['vis_index']
-        vis_index = vis_index[:4] + str(int(vis_index[4:]) + 1)
         
         input1 = request.POST['input1']
 
@@ -128,12 +126,10 @@ def chat(request):
         output['stepcount_1'] = stepcount_1
         output['stepcount_2'] = stepcount_2
         output['label'] = label 
-        output['vis_index'] = vis_index
         output['result'] = result # 나중에 삭제
         return HttpResponse(json.dumps(output), status=200)
     else:
-        vis_index = 'vis_0'
-        return render(request, 'chatbot/chat.html', context={'vis_index' : vis_index})
+        return render(request, 'chatbot/chat.html')
 
 def today_date(result):
     date_1 = []
