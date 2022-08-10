@@ -11,7 +11,7 @@ for(var i = 0; i < date_1.length; i++) {
 console.log(data);
 
 var width = 300;
-var height = 270;
+var height = 300;
 var margin = {top: 20, left: 40, bottom: 40, right: 5};
 
 var x = d3.scaleBand()
@@ -46,10 +46,17 @@ var x = d3.scaleBand()
 
 svg.append('g').call(xAxis)
   .selectAll("text")
-  .style("text-anchor", "end")
+  .style("text-anchor", function(d){
+    if(data[1].name.length >= 13){
+      return "start"
+    }
+    else {
+      return "center"
+    }
+  })
   .attr("transform", function(d){
     if(data[1].name.length >= 13){
-      return "rotate(-25)"
+      return "rotate(25)"
     }
     else {
       return "rotate(0)"
