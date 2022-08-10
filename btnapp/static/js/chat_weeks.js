@@ -55,7 +55,7 @@ svg.append('g').call(xAxis)
     }
   })
   .attr("transform", function(d){
-    if(data[1].name.length >= 13){
+    if(data[1].name.length >= 7){
       return "rotate(25)"
     }
     else {
