@@ -10,6 +10,7 @@
     var date_2;
     var stepcount_1;
     var stepcount_2;
+    var vis_index;
 
     $('#btn_submit').click(function () {
         send();
@@ -45,11 +46,13 @@
                     date_2 = data.date_2
                     stepcount_1 = data.stepcount_1
                     stepcount_2 = data.stepcount_2
+                    vis_index = data.vis_index
                     
                     $('#chatting').append('<div class="msg_box receive"><span>'+ response +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ label +'</span></div>');
                     $('#chatting').append('<div class="msg_box receive"><span>'+ result +'</span></div>');
-                    $('#chatting').append('<div id="{{vis_index}}"></div>');
+                    $('#chatting').append('<div class="msg_box receive"><span>'+ vis_index +'</span></div>');
+                    $('#chatting').append('<div id="vis"></div>');
                     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
                     // $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
                     // $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
