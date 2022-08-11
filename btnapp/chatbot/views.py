@@ -114,9 +114,15 @@ def chat(request):
                 label = "avg_weeks"
                 answer = "최근 3개월 걸음 수입니다."
 
-            else:
-                label = "avg_months"
+            elif "-6 month" in result:
                 answer, date_1, stepcount_1 = avg_months(result)
+                label = "avg_months"
+                answer = "최근 6개월 걸음 수입니다."
+
+            else:
+                answer, date_1, stepcount_1 = avg_months(result)
+                label = "avg_months"
+                answer = "최근 12개월 걸음 수입니다."
             
 
         output = dict()
@@ -176,6 +182,32 @@ def avg_months(result):
     date_1 = []
     stepcount_1 = []
     answer = "걸음 수"
+    tmp_stepcount = 0
+    tmp = 0
+    last_data = StepCount_Data.objects.raw(result)[-1].date
+
+    for i in StepCount_Data.objects.raw(result):
+        if i.date.day != 1:
+            if len(date_1) == 0:
+                date_1.append(str(i.date)[0:4] + "년 " + str(i.date)[5:7] + "월")
+            elif date_1[-1] != str(i.date)[0:4] + "년 " + str(i.date)[5:7] + "월":
+                date_1.append(str(i.date)[0:4] + "년 " + str(i.date)[5:7] + "월")
+            tmp_stepcount = tmp_stepcount + int(i.stepCount)
+            tmp = tmp + 1
+            if i.date == last_data:
+                stepcount_1.append(tmp_stepcount/tmp)
+
+        else:
+            if tmp_stepcount != 0:
+                stepcount_1.append(tmp_stepcount/tmp)
+                tmp_stepcount = 0
+                tmp = 0
+                tmp_stepcount = tmp_stepcount + int(i.stepCount)
+                tmp = tmp + 1
+            else:
+                date_1.append(str(i.date)[0:4] + "년 " + str(i.date)[5:7] + "월")
+                stepcount_1.append(i.stepCount)
+
     return answer, date_1, stepcount_1
 
 # kobert model
