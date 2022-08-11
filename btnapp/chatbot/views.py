@@ -64,7 +64,7 @@ def chat(request):
         stepcount_2 = []
         answer = "걸음 수"
         if label == 'Compare':
-            pass
+            result = result.replace(") date between", ") or date between")
 
         elif label == 'Specify':
             for i in StepCount_Data.objects.raw(result):
@@ -379,7 +379,6 @@ def get_query(user_input1: str, label):
     predicted_seq = predicted_seq.replace(" - ", "-")
     predicted_seq = predicted_seq.replace("+ ", "+")
     predicted_seq = predicted_seq.replace("- ", "-")
-    predicted_seq = predicted_seq.replace("') date between'", "') or date between'")
     # print(predicted_seq)
 
     result = "select * from stepcountData where date " + predicted_seq + " ORDER BY (date) ASC"
