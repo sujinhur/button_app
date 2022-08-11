@@ -64,7 +64,7 @@ def chat(request):
         stepcount_2 = []
         answer = "걸음 수"
         if label == 'Compare':
-            result = result.replace(') date between', ') or date between')
+            result = str(result).replace(') date between', ') or date between')
 
         elif label == 'Specify':
             for i in StepCount_Data.objects.raw(result):
