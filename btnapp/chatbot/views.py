@@ -76,10 +76,16 @@ def chat(request):
 
             elif "이번달" in input1:
                 answer = "이번달과 저번달 비교 걸음 수입니다."
-                
+                for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN date('now', 'start of month') and date('now')"):
+                    date_1.append(str(i.date)[8:])
+                    stepcount_1.append(i.stepCount)
+                for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN date('now', 'start of month', '-1 month') and date('now', 'start of month', '-1 days')"):
+                    date_2.append(str(i.date)[8:])
+                    stepcount_2.append(i.stepCount)
 
             elif ("2021" and "2022") in input1 or ("올해" and "작년") in input1:
-                pass
+                answer, date_1, date_2, stepcount_1, stepcount_2 = compare_year_month(input1)
+
             else: 
                 pass
 
@@ -226,6 +232,22 @@ def avg_months(result):
                 stepcount_1.append(i.stepCount)
 
     return answer, date_1, stepcount_1
+
+def compare_year_month(input1):
+    date_1 = []
+    date_2 = []
+    stepcount_1 = []
+    stepcount_2 = []
+    if "1월" in input1:
+        answer = "올해와 작년 1월 비교 걸음 수입니다."
+        for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2022-01-01' and date('2022-01-01', '+1 month', '-1 days')"):
+            date_1.append(str(i.date)[8:])
+            stepcount_1.append(i.stepCount)
+        for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2021-01-01' and date('2021-01-01', '+1 month', '-1 days')"):
+            date_2.append(str(i.date)[8:])
+            stepcount_2.append(i.stepCount)
+
+    return answer, date_1, date_2, stepcount_1, stepcount_2
 
 # kobert model
 def new_softmax(a) : 
