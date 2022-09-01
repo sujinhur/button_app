@@ -64,7 +64,24 @@ def chat(request):
         stepcount_2 = []
         answer = "걸음 수"
         if label == 'Compare':
-            result = str(result).replace(') date between', ') or date between')
+            input1 = input1.replace(" ", "")
+            if "이번주" in input1:
+                answer = "이번주와 저번주 비교 걸음 수입니다."
+                date_1 = ["월", "화", "수", "목", "금", "토", "일"]
+                date_2 = ["월", "화", "수", "목", "금", "토", "일"]
+                for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN date('now', '-7 days', 'weekday 1') and date('now')"):
+                    stepcount_1.append(i.stepCount)
+                for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN date('now', '-14 days', 'weekday 1') and date('now', '-7 days', 'weekday 0')"):
+                    stepcount_2.append(i.stepCount)
+
+            elif "이번달" in input1:
+                answer = "이번달과 저번달 비교 걸음 수입니다."
+                
+
+            elif ("2021" and "2022") in input1 or ("올해" and "작년") in input1:
+                pass
+            else: 
+                pass
 
         elif label == 'Specify':
             for i in StepCount_Data.objects.raw(result):
