@@ -246,6 +246,15 @@ def compare_year_month(input1):
         for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2021-01-01' and date('2021-01-01', '+1 month', '-1 days')"):
             date_2.append(str(i.date)[8:])
             stepcount_2.append(i.stepCount)
+    
+    elif "2월" in input1:
+        answer = "올해와 작년 2월 비교 걸음 수입니다."
+        for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2022-02-01' and date('2022-02-01', '+1 month', '-1 days')"):
+            date_1.append(str(i.date)[8:])
+            stepcount_1.append(i.stepCount)
+        for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2021-02-01' and date('2021-02-01', '+1 month', '-1 days')"):
+            date_2.append(str(i.date)[8:])
+            stepcount_2.append(i.stepCount)
 
     return answer, date_1, date_2, stepcount_1, stepcount_2
 
