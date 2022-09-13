@@ -260,10 +260,36 @@ def compare_year_month(input1):
         answer = "올해와 작년 비교 걸음 수입니다."
         date_1 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
         date_2 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+        tmp_month = 0
+        tmp_stepcount = 0
+        tmp_day = 0
         for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2022-01-01' and date('now')"):
-            stepcount_1.append(i.stepCount)
+            if tmp_month == 0:
+                tmp_month = i.date.month
+            if tmp_month == i.date.month:
+                tmp_stepcount = tmp_stepcount + i.stepcount
+                tmp_day = i.date.day
+                if i.date == datetime.date.today():
+                    stepcount_1.append(tmp_stepcount/tmp_day)
+            else:
+                tmp_month = i.date.month
+                stepcount_1.append(tmp_stepcount/tmp_day)
+                tmp_stepcount = 0
+                tmp_day = 0
+            
         for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2021-01-01' and date('2021-01-01', '+12 month', '-1 days')"):
-            stepcount_2.append(i.stepCount)
+            if tmp_month == 0:
+                tmp_month = i.date.month
+            if tmp_month == i.date.month:
+                tmp_stepcount = tmp_stepcount + i.stepcount
+                tmp_day = i.date.day
+                if i.date == datetime.date(2021, 12, 31):
+                    stepcount_2.append(tmp_stepcount/tmp_day)
+            else:
+                tmp_month = i.date.month
+                stepcount_2.append(tmp_stepcount/tmp_day)
+                tmp_stepcount = 0
+                tmp_day = 0
 
     return answer, date_1, date_2, stepcount_1, stepcount_2
 
