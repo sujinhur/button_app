@@ -269,7 +269,7 @@ def compare_year_month(input1):
             if tmp_month == i.date.month:
                 tmp_stepcount = tmp_stepcount + i.stepCount
                 tmp_day = i.date.day
-                if i.date == datetime.date.today():
+                if i.date == str(datetime.date.today()):
                     stepcount_1.append(tmp_stepcount/tmp_day)
             else:
                 tmp_month = i.date.month
@@ -283,7 +283,7 @@ def compare_year_month(input1):
             if tmp_month == i.date.month:
                 tmp_stepcount = tmp_stepcount + i.stepCount
                 tmp_day = i.date.day
-                if i.date == datetime.date(2021, 12, 31):
+                if i.date == str(datetime.date(2021, 12, 31)):
                     stepcount_2.append(tmp_stepcount/tmp_day)
             else:
                 tmp_month = i.date.month
