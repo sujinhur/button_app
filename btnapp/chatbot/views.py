@@ -90,20 +90,21 @@ def chat(request):
             else: 
                 pass
 
-        elif label == 'Specify':
-            for i in StepCount_Data.objects.raw(result):
-                date_1.append(str(i.date)[8:])
-                stepcount_1.append(i.stepCount)
-            
+        elif label == 'Specify':            
             if "-14 days" in result:
                 answer = "지난주 걸음 수입니다."
                 label = "weeks"
             elif "start of month" in result:
                 answer = "저번 달 걸음 수입니다"
                 label = "month"
-            else:    
+            else:
+                result = specify_month(input1, result)
                 answer = str(StepCount_Data.objects.raw(result)[0].date)[:4] + "년 " + str(StepCount_Data.objects.raw(result)[0].date)[5:7] + "월 걸음 수입니다."
                 label = "month"
+
+            for i in StepCount_Data.objects.raw(result):
+                date_1.append(str(i.date)[8:])
+                stepcount_1.append(i.stepCount)
 
         else:
             
@@ -233,6 +234,17 @@ def avg_months(result):
                 stepcount_1.append(i.stepCount)
 
     return answer, date_1, stepcount_1
+
+def specify_month(input1, result):
+    input1 = input1.replace(" ", "")
+    if "2021" in input1 or "2022" in input1 or "작년" in input1:
+        result = result
+    elif "올해" in input1:
+        result = str(result).replace("2021", "2022")
+    else:
+        pass
+
+    return result
 
 def compare_year_month(input1):
     date_1 = []
