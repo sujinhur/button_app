@@ -272,6 +272,9 @@ def compare_year_month(input1):
                 tmp_day = i.date.day
                 if i.date == str(datetime.date.today()):
                     stepcount_1.append(tmp_stepcount/tmp_day)
+                    tmp_month = 0
+                    tmp_stepcount = 0
+                    tmp_day = 0
             else:
                 tmp_month = i.date.month
                 stepcount_1.append(tmp_stepcount/tmp_day)
