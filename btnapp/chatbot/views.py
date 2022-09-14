@@ -242,7 +242,14 @@ def specify_month(input1, result):
     elif "올해" in input1:
         result = str(result).replace("2021", "2022")
     else:
-        pass
+        query_month = result[result.find('2021') + 5, result.find('2021') + 7]
+        if str(datetime.date.today().month) < query_month:
+            result = result
+        elif str(datetime.date.today().month) == query_month:
+            result = result[0:result.rfind('date')] + "date('now')"
+            result = str(result).replace("2021", "2022")
+        else:
+            result = str(result).replace("2021", "2022")
 
     return result
 
