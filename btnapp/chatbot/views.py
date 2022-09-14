@@ -241,6 +241,8 @@ def specify_month(input1, result):
         result = result
     elif "올해" in input1:
         result = str(result).replace("2021", "2022")
+        if int(datetime.date.today().month) == int(result[result.find('2021') + 5: result.find('2021') + 7]):
+            result = "select * from stepcountData where date between date('now','start of month') and date('now') ORDER BY (date) ASC"
     else:
         query_month = int(result[result.find('2021') + 5: result.find('2021') + 7])
         if int(datetime.date.today().month) < query_month:
