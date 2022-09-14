@@ -243,9 +243,9 @@ def specify_month(input1, result):
         result = str(result).replace("2021", "2022")
     else:
         query_month = result[result.find('2021') + 5: result.find('2021') + 7]
-        if str(datetime.date.today().month) < query_month:
+        if int(datetime.date.today().month) < query_month:
             result = result
-        elif str(datetime.date.today().month) == query_month:
+        elif int(datetime.date.today().month) == query_month:
             result = result[0:result.rfind('date')] + "date('now')"
             result = str(result).replace("2021", "2022")
         else:
