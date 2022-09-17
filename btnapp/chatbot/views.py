@@ -85,8 +85,13 @@ def chat(request):
                     stepcount_2.append(i.stepCount)
 
             elif ("2021" and "2022") in input1 or ("올해" and "작년") in input1:
-                answer, date_1, date_2, stepcount_1, stepcount_2 = compare_year_month(input1)
-
+                if "월" in input1:
+                    answer, date_1, date_2, stepcount_1, stepcount_2 = compare_year_month(input1)
+                else:
+                    answer = "올해와 작년 비교 걸음 수입니다."
+                    date_1 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+                    date_2 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+                    stepcount_1, stepcount_2 = compare_year()
             else: 
                 answer = "올해와 작년 비교 걸음 수입니다."
                 date_1 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
