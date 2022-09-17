@@ -265,6 +265,8 @@ def compare_year_month(input1):
 
     month_num = re.findall(r'\d+', input1[input1.find("월") - 2 : input1.find("월")])[0]
     answer = "올해와 작년 " + month_num + "월 비교 걸음 수입니다."
+    if len(month_num) == 1:
+        month_num = "0" + month_num
     for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2021-" + month_num + "-01' and date('2021-" + month_num + "-01', '+1 month', '-1 days')"):
         date_2.append(str(i.date)[8:])
         stepcount_2.append(i.stepCount)
