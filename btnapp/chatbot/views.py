@@ -81,10 +81,10 @@ def chat(request):
                 legend_value = ['이번달', '저번달']
                 answer = "이번달과 저번달 비교 걸음 수입니다."
                 for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN date('now', 'start of month') and date('now')"):
-                    date_1.append(str(i.date)[8:])
+                    date_1.append(str(int(str(i.date)[8:])))
                     stepcount_1.append(i.stepCount)
                 for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN date('now', 'start of month', '-1 month') and date('now', 'start of month', '-1 days')"):
-                    date_2.append(str(i.date)[8:])
+                    date_2.append(str(int(str(i.date)[8:])))
                     stepcount_2.append(i.stepCount)
 
             elif ("2021" and "2022") in input1 or ("올해" and "작년") in input1:
@@ -111,11 +111,11 @@ def chat(request):
                 label = "month"
             else:
                 result = specify_month(input1, result)
-                answer = str(StepCount_Data.objects.raw(result)[0].date)[:4] + "년 " + int(str(StepCount_Data.objects.raw(result)[0].date)[5:7]) + "월 걸음 수입니다."
+                answer = str(StepCount_Data.objects.raw(result)[0].date)[:4] + "년 " + str(int(str(StepCount_Data.objects.raw(result)[0].date)[5:7])) + "월 걸음 수입니다."
                 label = "month"
 
             for i in StepCount_Data.objects.raw(result):
-                date_1.append(str(i.date)[8:])
+                date_1.append(str(int(str(i.date)[8:])))
                 stepcount_1.append(i.stepCount)
 
         else:

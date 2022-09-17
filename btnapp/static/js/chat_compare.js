@@ -66,7 +66,10 @@ var xAxisGroup = graph
   .append("g")
   .attr("class", "x-axis")
   .style("font-size", "11px")
-  .attr("transform", "translate(0," + (height - margin.bottom) + ")");
+  .attr("transform", "translate(0," + (height - margin.bottom) + ")")
+  .call(d3.axisBottom(x)
+    .tickSizeOuter(0)
+    .tickFormat(g => g%2==1 ? g : null));
   
 
 var yAxisGroup = graph
