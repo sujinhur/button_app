@@ -2,6 +2,14 @@
 dataset = [];
 dataset1 = [];
 
+if(date_1.length >= 12) {
+  for(var i=0; i < date_1.length; i++) {
+    if(i%2==1){
+      date_1[i] = " "
+    }
+  }
+}
+
 if(date_2.length >= 12) {
   for(var i=0; i < date_2.length; i++) {
     if(i%2==1){
