@@ -155,7 +155,7 @@ var legend = svg.append("g")
     .selectAll("g")
     .data(legend_value)
     .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * 20 + 20 + ")"; });
+    .attr("transform", function(d, i) { return "translate(0," + String(Number(i * 20) + 20) + ")"; });
 
 legend.append("rect")
     .attr("x", width - 25)
