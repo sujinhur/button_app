@@ -268,7 +268,7 @@ def compare_year_month(input1):
     for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2021-" + month_num + "-01' and date('2021-" + month_num + "-01', '+1 month', '-1 days')"):
         date_2.append(str(i.date)[8:])
         stepcount_2.append(i.stepCount)
-    if int(datetime.date.today().month) == month_num:
+    if int(datetime.date.today().month) == int(month_num):
         for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN '2022-" + month_num + "-01' and date('now')"):
             date_1.append(str(i.date)[8:])
             stepcount_1.append(i.stepCount)
