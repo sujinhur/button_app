@@ -93,13 +93,13 @@ def chat(request):
                 else:
                     legend_value = ['2022년', '2021년']
                     answer = "올해와 작년 비교 걸음 수입니다."
-                    date_1 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
-                    date_2 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+                    date_1 = ["1월", "-", "3월", "-", "5월", "-", "7월", "-", "9월", "-", "11월", "-"]
+                    date_2 = ["1월", "-", "3월", "-", "5월", "-", "7월", "-", "9월", "-", "11월", "-"]
                     stepcount_1, stepcount_2 = compare_year()
             else: 
                 answer = "올해와 작년 비교 걸음 수입니다."
-                date_1 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
-                date_2 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
+                date_1 = ["1월", "-", "3월", "-", "5월", "-", "7월", "-", "9월", "-", "11월", "-"]
+                date_2 = ["1월", "-", "3월", "-", "5월", "-", "7월", "-", "9월", "-", "11월", "-"]
                 stepcount_1, stepcount_2 = compare_year()
 
         elif label == 'Specify':            
@@ -178,7 +178,7 @@ def today_date(result):
     date_1 = []
     stepcount_1 = []
     for i in StepCount_Data.objects.raw(result):
-        date_1.append(str(i.date)[8:])
+        date_1.append(str(int(str(i.date)[8:])))
         stepcount_1.append(i.stepCount)
     return date_1, stepcount_1
 
@@ -193,24 +193,24 @@ def avg_weeks(result):
 
     for i in StepCount_Data.objects.raw(result):
         if i.date.weekday() != 0:
-            tmp_date.append(str(i.date)[5:7] + "월 " + str(i.date)[8:] + "일")
+            tmp_date.append(str(int(str(i.date)[5:7])) + "월 " + str(int(str(i.date)[8:])) + "일")
             tmp_stepcount = tmp_stepcount + int(i.stepCount)
             tmp = tmp + 1
             if i.date == last_data:
-                date_1.append(tmp_date[0] + " ~")
+                date_1.append(tmp_date[0])
                 stepcount_1.append(tmp_stepcount/tmp)
         else:
             if tmp_stepcount != 0:
-                date_1.append(tmp_date[0] + " ~")
+                date_1.append(tmp_date[0])
                 stepcount_1.append(tmp_stepcount/tmp)
                 tmp_date = []
                 tmp_stepcount = 0
                 tmp = 0
-                tmp_date.append(str(i.date)[5:7] + "월 " + str(i.date)[8:] + "일")
+                tmp_date.append(str(int(str(i.date)[5:7])) + "월 " + str(int(str(i.date)[8:])) + "일")
                 tmp_stepcount = tmp_stepcount + int(i.stepCount)
                 tmp = tmp + 1
             else:
-                date_1.append(str(i.date)[5:7] + "월 " + str(int(str(i.date)[8:])) + "일")
+                date_1.append(str(int(str(i.date)[5:7])) + "월 " + str(int(str(i.date)[8:])) + "일")
                 stepcount_1.append(i.stepCount)
 
     return answer, date_1, stepcount_1
