@@ -155,12 +155,12 @@ var legend = svg.append("g")
     .selectAll("g")
     .data(legend_value)
     .enter().append("g")
-    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+    .attr("transform", function(d, i) { return "translate(0," + i * 20 + 20 + ")"; });
 
 legend.append("rect")
     .attr("x", width - 25)
     .attr("y", 10)
-    .attr("width", 20)
+    .attr("width", 15)
     .attr("height", 13)
     .attr("fill", function(d, i) { return colors[i]; });
 
@@ -168,5 +168,5 @@ legend.append("text")
     .attr("x", width - 30)
     .attr("y", 20)
     .attr("dy", "0.01em")
-    .attr("font-size", "12px")
+    .attr("font-size", "10px")
     .text(function(d) { return d; });
