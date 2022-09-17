@@ -147,3 +147,26 @@ path1
 .attr("fill", "none")
 .attr("stroke", "#198754")
 .attr("stroke-width", 2);
+
+// 범례 표시
+colors = ["#fd7e14", "#198754"];
+var legend = svg.append("g")
+    .attr("text-anchor", "end")
+    .selectAll("g")
+    .data(legend_value)
+    .enter().append("g")
+    .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+legend.append("rect")
+    .attr("x", width - 25)
+    .attr("y", 10)
+    .attr("width", 20)
+    .attr("height", 13)
+    .attr("fill", function(d, i) { return colors[i]; });
+
+legend.append("text")
+    .attr("x", width - 30)
+    .attr("y", 20)
+    .attr("dy", "0.01em")
+    .attr("font-size", "12px")
+    .text(function(d) { return d; });

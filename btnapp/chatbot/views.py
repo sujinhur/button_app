@@ -63,10 +63,12 @@ def chat(request):
         date_2 = []
         stepcount_1 = []
         stepcount_2 = []
+        legend_value = []
         answer = "걸음 수"
         if label == 'Compare':
             input1 = input1.replace(" ", "")
             if "이번주" in input1:
+                legend_value = ['이번주', '저번주']
                 answer = "이번주와 저번주 비교 걸음 수입니다."
                 date_1 = ["월", "화", "수", "목", "금", "토", "일"]
                 date_2 = ["월", "화", "수", "목", "금", "토", "일"]
@@ -76,6 +78,7 @@ def chat(request):
                     stepcount_2.append(i.stepCount)
 
             elif "이번달" in input1:
+                legend_value = ['이번달', '저번달']
                 answer = "이번달과 저번달 비교 걸음 수입니다."
                 for i in StepCount_Data.objects.raw("select * from stepcountData where date BETWEEN date('now', 'start of month') and date('now')"):
                     date_1.append(str(i.date)[8:])
@@ -86,8 +89,9 @@ def chat(request):
 
             elif ("2021" and "2022") in input1 or ("올해" and "작년") in input1:
                 if "월" in input1:
-                    answer, date_1, date_2, stepcount_1, stepcount_2 = compare_year_month(input1)
+                    legend_value, answer, date_1, date_2, stepcount_1, stepcount_2 = compare_year_month(input1)
                 else:
+                    legend_value = ['2022년', '2021년']
                     answer = "올해와 작년 비교 걸음 수입니다."
                     date_1 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
                     date_2 = ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"]
@@ -107,7 +111,7 @@ def chat(request):
                 label = "month"
             else:
                 result = specify_month(input1, result)
-                answer = str(StepCount_Data.objects.raw(result)[0].date)[:4] + "년 " + str(StepCount_Data.objects.raw(result)[0].date)[5:7] + "월 걸음 수입니다."
+                answer = str(StepCount_Data.objects.raw(result)[0].date)[:4] + "년 " + int(str(StepCount_Data.objects.raw(result)[0].date)[5:7]) + "월 걸음 수입니다."
                 label = "month"
 
             for i in StepCount_Data.objects.raw(result):
@@ -165,6 +169,7 @@ def chat(request):
         output['stepcount_1'] = stepcount_1
         output['stepcount_2'] = stepcount_2
         output['label'] = label 
+        output['legend_value'] = legend_value
         output['result'] = result # 나중에 삭제
         return HttpResponse(json.dumps(output), status=200)
     else:
@@ -267,8 +272,10 @@ def compare_year_month(input1):
     date_2 = []
     stepcount_1 = []
     stepcount_2 = []
+    legend_value = []
 
     month_num = re.findall(r'\d+', input1[input1.find("월") - 2 : input1.find("월")])[0]
+    legend_value = ['2022년 ' + month_num  + '월', '2021년 ' + month_num  + '월']
     answer = "올해와 작년 " + month_num + "월 비교 걸음 수입니다."
     if len(month_num) == 1:
         month_num = "0" + month_num
@@ -285,7 +292,7 @@ def compare_year_month(input1):
             stepcount_1.append(i.stepCount)
 
 
-    return answer, date_1, date_2, stepcount_1, stepcount_2
+    return legend_value, answer, date_1, date_2, stepcount_1, stepcount_2
 
 def compare_year():
     stepcount_1 = []
