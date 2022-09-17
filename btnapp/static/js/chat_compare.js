@@ -67,10 +67,6 @@ var xAxisGroup = graph
   .attr("class", "x-axis")
   .style("font-size", "11px")
   .attr("transform", "translate(0," + (height - margin.bottom) + ")")
-  .call(d3.axisBottom(x)
-    .tickSizeOuter(0)
-    .tickFormat(g => g%2==1 ? g : null));
-  
 
 var yAxisGroup = graph
   .append("g")
@@ -80,6 +76,8 @@ var yAxisGroup = graph
 // create axes
 var xAxis = d3
   .axisBottom(x)
+  .tickSizeOuter(0)
+  .tickFormat(g => g%2==1 ? g : null);
 
   
 var yAxis = d3
