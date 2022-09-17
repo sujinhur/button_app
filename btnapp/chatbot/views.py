@@ -168,7 +168,6 @@ def chat(request):
         output['date_2'] = date_2
         output['stepcount_1'] = stepcount_1
         output['stepcount_2'] = stepcount_2
-        output['label'] = label 
         output['legend_value'] = legend_value
         return HttpResponse(json.dumps(output), status=200)
     else:

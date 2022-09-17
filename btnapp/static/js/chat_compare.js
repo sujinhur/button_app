@@ -2,6 +2,14 @@
 dataset = [];
 dataset1 = [];
 
+if(date_2.length >= 12) {
+  for(var i=0; i < date_2.length; i++) {
+    if(i%2==1){
+      date_2[i] = null
+    }
+  }
+}
+
 for(var i=0; i < date_1.length; i++) {
     if(i >= stepcount_1.length) {
         dataset.push({'name': date_1[i], 'value': null});
@@ -76,9 +84,7 @@ var yAxisGroup = graph
 
 // create axes
 var xAxis = d3
-  .axisBottom(x)
-  .tickSizeOuter(0)
-  .tickFormat(g => g%2==1 ? g : null);
+  .axisBottom(x);
 
   
 var yAxis = d3

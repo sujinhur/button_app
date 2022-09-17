@@ -39,7 +39,6 @@
                 data: $('#form').serialize(),
                 success: function(data) {
                     response = data.response
-                    label = data.label
                     date_1 = data.date_1
                     date_2 = data.date_2
                     stepcount_1 = data.stepcount_1
@@ -47,7 +46,6 @@
                     legend_value = data.legend_value
                     
                     $('#chatting').append('<div class="msg_box receive"><span>'+ response +'</span></div>');
-                    $('#chatting').append('<div class="msg_box receive"><span>'+ label +'</span></div>');
                     $('#chatting').append('<div id="vis"></div>');
                     $("#chatting").scrollTop($("#chatting")[0].scrollHeight);
                     // $('#chatting').append('<div class="msg_box receive" id="vis"><span></span></div>');
