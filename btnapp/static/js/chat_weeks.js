@@ -47,7 +47,7 @@ var x = d3.scaleBand()
 svg.append('g').call(xAxis)
   .selectAll("text")
   .style("text-anchor", function(d){
-    if(data[1].name.length >= 7){
+    if(data[1].name.length >= 5){
       return "end"
     }
     else {
@@ -55,7 +55,7 @@ svg.append('g').call(xAxis)
     }
   })
   .attr("transform", function(d){
-    if(data[1].name.length >= 7){
+    if(data[1].name.length >= 5){
       return "rotate(-25)"
     }
     else {
@@ -63,7 +63,7 @@ svg.append('g').call(xAxis)
     }
   })
   .style("font-size", function(d){
-    if(data[1].name.length >= 7){
+    if(data[1].name.length >= 5){
       return "9px"
     }
     else {
