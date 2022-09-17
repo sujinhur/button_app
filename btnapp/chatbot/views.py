@@ -170,7 +170,6 @@ def chat(request):
         output['stepcount_2'] = stepcount_2
         output['label'] = label 
         output['legend_value'] = legend_value
-        output['result'] = result # 나중에 삭제
         return HttpResponse(json.dumps(output), status=200)
     else:
         return render(request, 'chatbot/chat.html')

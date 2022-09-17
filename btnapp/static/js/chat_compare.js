@@ -37,6 +37,7 @@ var margin = {top: 40, left: 40, bottom: 70, right: 5};
 // canvas 사이즈
 var svg = d3
   .select("#vis")
+  .attr('id', "new_vis")
   .append("svg")
   .attr("width", width)
   .attr("height", height)
