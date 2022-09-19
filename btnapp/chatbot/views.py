@@ -249,8 +249,20 @@ def avg_months(result):
 
 def specify_month(input1, result):
     input1 = input1.replace(" ", "")
-    if "2021" in input1 or "2022" in input1 or "작년" in input1:
+    if "2021" in input1 or "작년" in input1:
         result = result
+    elif "2022" in input1:
+        month_num = re.findall(r'\d+', input1[input1.find("월") - 2 : input1.find("월")])[0]
+        if int(month_num) >= 6:
+            if int(month_num) < 10:
+                month_num = "0" + month_num
+            if int(datetime.date.today().month) == month_num:
+                result = "select * from stepcountData where date BETWEEN '2022-" + month_num + "-01' and date('now')"
+            else:
+                result = "select * from stepcountData where date BETWEEN '2022-" + month_num + "-01' and date('2022-" + month_num + "-01', '+1 month', '-1 days')"
+        else:
+            result = result
+
     elif "올해" in input1:
         result = str(result).replace("2021", "2022")
         if int(datetime.date.today().month) == int(result[result.find('2022') + 5: result.find('2022') + 7]):
